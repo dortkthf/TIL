@@ -49,7 +49,7 @@ GIt : 분산 버전관리 시스템
    - `git init` : 저장소 처음 만들때
    
    - `git add`   : 버전을 기록할때, working directory  -> staged 로 이동
-     
+   
    - `git commit -m '기록문구'` : 버전을 기록할때
    
    - `git status` :
@@ -58,11 +58,11 @@ GIt : 분산 버전관리 시스템
      - 파일의 상태를 알 수 있음
    
    - `git log` : 현재 저장소에 기록된 커밋을 조회. 다양한 옵션을 통해 로그를 조회할 수 있음
-     
+   
      - `git log -1` : 최근 1개의 커밋을 보여줘
      - `git log --oneline` : 한줄로 표시해줘
      - `git log -2 --oneline` : 최근 2개의 커밋을 한줄로 보여줘
-     
+   
    - `git config --global user.email "dortkthf@gmail.com"` : user.email 설정할때
    
    - `git config --global user.name "dortkthf"` : user.name 설정할때
@@ -94,6 +94,8 @@ GIt : 분산 버전관리 시스템
      - commit 하기전에 미리 ignore 해야하고 이미 commit 된것을 gitignore 를 하면 무시가 되지않는다.
    
      * gitignore.io 홈페이지에서 나에게 맞는 상황을 설정하고 코드를 출력시켜서 그내로 복붙하면된다.
+   
+   - `git log --oneline --graph` : log를 그래프로 보여준다.
    
      
    
