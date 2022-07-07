@@ -128,3 +128,35 @@ Git은 파일을 modified staged committed 로 관리
 - committed
 
 ![image-20220705175430228](Git_summary.assets/image-20220705175430228.png)
+
+## 클론을 진행할때 생기는일
+
+1. 클론하면 원격 저장소 이름의 폴더가 생성된다.
+2. 클론이후에 생성된 원격 저장소이름의 폴더에서 시작을 하면된다.
+3. 클론에서 생성된 폴더는 자동으로 git 저장소가 생겨서 master branch가 생긴다
+4. 또한 해당 레포지토리의 remote도 등록되어있기때문에 remote add 가 불필요하다.
+5. 따라서 그전에 버전또한 확인할수 있다.
+
+## 클론이 아닌 압축을 풀어서 진행하면 생기는일
+
+1. 그냥 압축파일을 다운받으면 그냥 압축된 파일만 받을수있다.
+2. 압축이후 폴더에는 git 저장소가 생기지 않으며 새로 만들어야 한다.
+3. 따라서 그 이전의 버전도 확인할수 없다.
+
+### GIT 핵심용어 간단 정리
+
+```bash
+# 로컬
+$ git init
+$ git add
+$ git commit -m 'z커밋메시지'
+$ git status
+$ git log
+
+# 원격
+$ git push origin master
+$ git pull origin master
+$ git remote add origin url
+$ git clone url
+```
+
