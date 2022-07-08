@@ -77,6 +77,8 @@ $ git restore --staged <file> : 특정파일을 unstage 하기위해
 
 ### Fork Pull Request
 
+
+
 ![Fork pull request0](Git_branch.assets/Fork pull request0.png)
 
 Fork 할 프로젝트에 들어가서 fork를 누르고 repository를 설정한다.
