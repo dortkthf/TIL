@@ -53,12 +53,10 @@ $ 역슬래쉬 : 키보드 원화모양
 
 ```bash
 $ git init : 로컬에서 git의 저장소를 처음 만들때 사용
-
 $ git add <파일명> : 버전을 기록할때 working directory => staging area로 이동시킨다.
-
 $ git commit -m '기록문구' : staging area 에서 로컬 repository 로 이동하는 과정으로 최종 버전으로 기록할때 쓰인다.
+$ git status : git 저장소에 있는 파일의 상태를 확인하기 위하여 활용된다. working directory 와 staging area 를 확인	
 
-$ git status : git 저장소에 있는 파일의 상태를 확인하기 위하여 활용된다. working directory 와 staging area 를 확인				  한다.
 $ git log : 현재 저장소에(repository) 기록된 커밋을 조회하고 다양한 옵션을 통해 로그를 조회할 수 있다.
 	
 	- $ git log -1 : 최근 1개의 커밋을 보여줘
@@ -67,22 +65,16 @@ $ git log : 현재 저장소에(repository) 기록된 커밋을 조회하고 다
 	- $ git log --oneline --graph : 모든 커밋을 한줄의 그래프로 보여줘
 	
 $ git config --global user.email 'dortkthf@gmail.com' : user.eamil 설정할때 사용한다.
-
 $ git config --global user.name 'dortkthf' : user.name 을 설정할때 사용한다.
-
 $ git remote add origin <원격저장소의 url> : 원격저장소의 주소설정
-
 $ git remote -v : 원격 저장소의 주소 정보 확인
-
 $ git remote rm <원격저장소이름> : 원격 저장소의 주소를 제거
 
 $ git push <원격저장소 이름> <브랜치이름> :
-
 	- 원격 저장소로 로컬 저장소의 변경사항(commit)을 올림(push)
 	- 명령어를 입력할때에는 꺽쇠<> 를 제외하고 스페이스바로 구분만 해서 명령
 	
 $ git pull <원격저장소 이름> <브랜치이름> :
-
 	- 원격 저장소로부터 변경된 내역을 받아와서 이력을 병합함
 	- 명령어를 입력할때에는 꺽쇠<> 를 제외하고 스페이스바로 구분만 해서 명령
 
