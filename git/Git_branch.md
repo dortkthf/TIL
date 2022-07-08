@@ -77,19 +77,17 @@ $ git restore --staged <file> : 특정파일을 unstage 하기위해
 
 ### Fork Pull Request
 
-
-
-![Fork pull request0](Git_branch.assets/Fork pull request0.png)
+![](Git_branch.assets/Fork pull request0.png)
 
 Fork 할 프로젝트에 들어가서 fork를 누르고 repository를 설정한다.
 
 이후에 clone 으로 바탕화면에 불러들인후 new commit을 생성하여 나의 repository에 올린다.
 
-![Fork pull request](Git_branch.assets/Fork pull request-16571986880921.png)
+![](Git_branch.assets/Fork pull request-16571986880921.png)
 
-이후 contribute에서 Open pull request 를 누르고
+이후 Contribute에서 Open pull request 를 누르고
 
-![Fork pull request2](Git_branch.assets/Fork pull request2.png)
+![](Git_branch.assets/Fork pull request2.png)
 
 Create pull request 를 클릭한다.
 
