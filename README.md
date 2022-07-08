@@ -4,13 +4,17 @@
 
 ## 💕07.04
 
-## Mark Down : [Mark Down](markDown/markDown_summary.md)	
+## [Mark Down](markDown/markDown_summary.md)	
 
 ## 💕07.05 - 07.06 
 
-## Git : [Git](git/Git_summary.md)
+## [Git](git/Git_summary.md)
 
 ## 💕07.07
 
-## Git Branch : [Git Branch](git/Git_branch.md)
+## [Git Branch](git/Git_branch.md)
+
+## 💕07.08
+
+## [취업특강](취업특강/취업특강_07.08/0708 취업특강.md)
 
