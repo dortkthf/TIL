@@ -114,3 +114,45 @@ Create pull request 를 클릭한다.
 ![image-20220707172713682](Git_branch.assets/image-20220707172713682.png)
 
 ![image-20220707173143669](Git_branch.assets/image-20220707173143669.png)
+
+# 협업을 위한 방법 2가지
+
+- Shared repo : 초대해서 하는것으로 권한을가지고있다
+
+![image-20220708094823808](Git_branch.assets/image-20220708094823808-16572791935581.png)
+
+- Fork & Pull Request 하는이유는 ?? : 소유하지 않아서 
+
+  1. Fork 찍어서 가져옴
+  2. 이제부터는 내 저장소를 관리하는것과 100%동일
+     - clone
+     - add
+     - commit
+   - 내 저장소로 push
+     - GitHub 가서 Pull Resquest
+
+
+**merge request == Pull request 같은말이다**
+
+
+
+## gitkeep 과 gitignore
+
+```bash
+$ touch .gitkeep : 
+# 1. 빈 폴더를 만들기위해서사용 한다. 유지시키려는 빈폴더에 .gitkeep 파일을 생성하면 해당 빈폴더를 유지시킬수있다. 
+# 2. 말고 다른 이름으로 사용이 가능하다. 관용적으로 쓰이는 것이다 ex).keep .dummy 등등 다 사용가능하지만 그냥 관용표현인 		 gitkeep을 사용하는것이 좋다.
+$ touch .gitignore :
+# 1. git으로 추적하지 않는 파일을 관리한다. WHY? git은 하위 디렉토리의 모든 파일을 추적하기 때문에
+# 2. gitkeep처럼 이름을 바꿀수 없다. 오로지 gitignore 로만 사용 가능하다.
+```
+
+
+
+``.gitkeep`` : 빈 폴더를 만들기위해서사용 한다. 유지시키려는 빈폴더에 .gitkeep 파일을 생성하면 해당 빈폴더를 유지시킬수있다. 
+
+``.gitkeep`` 말고 다른 이름으로 사용이 가능하다. 관용적으로 쓰이는 것이다 ex).keep 등등 하지만 그냥 관용표현인 gitkeep을 사용하는것이 나아보인다.
+
+``.gitignore`` : git으로 추적하지 않는 파일 관리-- why? -- git은 하위 디렉토리의 몯느 파일을 추적하니까
+
+이름 바꾸기 불가능 .gitignore 로만 사용가능
