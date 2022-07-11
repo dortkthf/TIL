@@ -20,4 +20,4 @@
 
 ## 💕07.11
 
-## [Python](python/python.md)
+## [Python](python/Python.md)
