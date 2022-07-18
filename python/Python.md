@@ -541,9 +541,16 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
     - bool
     - Numeric type (int, float, complex)
 
-![image-20220712084958580](Python.assets/image-20220712084958580.png)
+```python
+True + 3
+# 4
+3 + 5.0
+# 8.0
+3 + 4j + 5
+# (8+4j)
+```
 
-- 명시적 형 변환(Explicit)
+- **명시적 형 변환(Explicit)**
   - 사용자가 특정 함수를 활용하여 의도적으로 자료형을 변환 하는 경우
   - int
     - str*,float => int
@@ -552,7 +559,19 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
   - str
     - int, float, list, tuple, dict => str
 
-![image-20220712085322081](Python.assets/image-20220712085322081.png)
+```python
+# 문자열은 암시적 타입 변환이 되지 않음
+'3' + 4
+# TypeError: can only concatenate str (not "int") to str
+# 명시적 타입 변환이 필요함
+int('3') + 4
+# 7
+# 정수 형식이 아닌 경우 타입 변환할 수 없음
+int('3.5') + 5
+# ValueError: invalid literal for int() with base 10: '3.5'
+float('3.5') + 5
+# 8.5
+```
 
 ## 컨테이너(Container) 정의
 
@@ -562,6 +581,9 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
 - 컨테이너의 분류
   - 순서가 있는 데이터(Ordered) vs. 순서가 없는 데이터 (Unordered)
   - 순서가 있다 != 정렬되어 있다.
+
+## 컨테이너 분류
+
 - 시퀀스
   - 문자열(immutable) : 문자들의 나열
   - 리스트 (mutable) : 변경 가능한 값들의 나열
@@ -575,18 +597,18 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
 
 ### 시퀀스형 주요 공통 연산자
 
-| 연산              | 결과                                                      |
-| ----------------- | --------------------------------------------------------- |
-| s[i]              | s 의 i 번째 항목, 0에서부터 시작합니다.                   |
-| s[i:j]            | s 의 i 에서 j 까지의 슬라이스                             |
-| s[i:j:k]          | s 의 i 에서 j 까지 스텝 k 의 슬라이스                     |
-| s + t             | s 와 t 의 이어 붙이기                                     |
-| s * n 또는 n *  s | s를 그 자신에 n 번 더하는것                               |
-| x in s            | s 의 항목 중 하나가 x 와 같으면 True, 그렇지 않으면 False |
-| x not in s        | s 의 항목 중 하나가 x 와 같으면 False, 그렇지 않으면 True |
-| len(s)            | s 의 길이                                                 |
-| min(s)            | s 의 가장 작은 항목                                       |
-| max(s)            | s 의 가장 큰 항목                                         |
+| **연산**              | **결과**                                                     |
+| --------------------- | ------------------------------------------------------------ |
+| **s[i]**              | **s 의 i 번째 항목, 0에서부터 시작합니다.**                  |
+| **s[i:j]**            | **s 의 i 에서 j 까지의 슬라이스**                            |
+| **s[i:j:k]**          | **s 의 i 에서 j 까지 스텝 k 의 슬라이스**                    |
+| **s + t**             | **s 와 t 의 이어 붙이기**                                    |
+| **s * n 또는 n *  s** | **s를 그 자신에 n 번 더하는것**                              |
+| **x in s**            | **s 의 항목 중 하나가 x 와 같으면 True, 그렇지 않으면 False** |
+| **x not in s**        | **s 의 항목 중 하나가 x 와 같으면 False, 그렇지 않으면 True** |
+| **len(s)**            | **s 의 길이**                                                |
+| **min(s)**            | **s 의 가장 작은 항목**                                      |
+| **max(s)**            | **s 의 가장 큰 항목**                                        |
 
 ## 리스트(List)
 
@@ -594,7 +616,7 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
 
 - 변경 가능한 값들의 나열된 자료형
 
-- 순서를 가지며, 서로 다른 타임의 요소를 가질 수 있음
+- 순서를 가지며, 서로 다른 타입의 요소를 가질 수 있음
 
 - 변경 가능하며(mutable), 반복 가능함(iterable)
 
@@ -609,186 +631,264 @@ print('이 다음은 엔터.\n그리고 탭\t탭')
 
 ![image-20220712152009773](Python.assets/image-20220712152009773.png)
 
+### 리스트 생성
+
+```python
+# 생성
+my_list = []
+another_list = list()
+type(my_list)
+# <class 'list'>
+type(another_list)
+# <class 'list'>
+```
+
+### 리스트 접근과 변경
+
+```python
+# 값 접근
+a = [1, 2, 3]
+print(a[0])
+# 1
+# 값 변경
+a[0] = '1'
+print(a)
+# ['1', 2, 3]
+```
+
+### 리스트 값 추가/삭제
+
+- 값 추가는 .append()를 활용하여 추가하고자 하는 값을 전달
+
+  ```python
+  even_numbers = [2, 4, 6, 8]
+  even_numbers.append(10)
+  even_numbers
+  # => [2, 4, 6, 8, 10]
+  ```
+
+- 값 삭제는 .pop()을 활용하여 삭제하고자 하는 인덱스를 전달
+
+  ```python
+  even_numbers = [2, 4, 6, 8]
+  even_numbers.pop(0)
+  even_numbers
+  # => [4, 6, 8]
+  ```
+
+### 리스트 예제
+
+- ```python
+  boxes = ['apple', 'banana']
+  len(boxes)
+  # 2
+  boxes[1]
+  # 'banana'
+  boxes[1][0]
+  # 'b'
+  ```
 
 
-## 컨테이너
 
-![image-20220711113508248](Python.assets/image-20220711113508248.png)
+# 튜플(Tuple)
 
-![image-20220711114202358](Python.assets/image-20220711114202358.png)
+### 튜플(Tuple) 정의
 
-![image-20220711114350326](Python.assets/image-20220711114350326.png)
+- 불변한 값들의 나열
+- 순서를 가지며, 서로 다른 타입의 요소를 가질 수 있슴
+- 변경 불가능하며(immutable), 반복 가능함(iterable)
+- 항상 소괄호 형태로 정의하며, 요소는 콤마로 구분
+
+​	ex)	**(0, 1, 3)**
+
+### 생성과 접근
+
+- 소괄호() 혹은 tuple()을 통해 생성
+
+- 값에 대한 접근은 리스트와 동일하게 인덱스로 접근
+
+  - 값 변경은 불가능하여 추가/삭제도 불가능함
+
+    ```python
+    # 값 접근
+    a = (1, 2, 3, 1)
+    a[1]
+    # 값 변경 => 불가능
+    a[1] = ‘3’
+    
+    #TypeError Traceback (most recent call last) 
+    #1 # 값 변경 => 불가능 ----> 
+    #2 a[1] = '3’ 
+    #TypeError: 'tuple' object does not support item assignment
+    ```
+
+# 레인지(Range)
+
+- 숫자의 시퀀스를 나타내기 위해 사용
+  - 기본형 : range(n)
+    - 0부터 n-1까지의 숫자의 시퀀스
+  - 범위 지정 : range(n, m)
+    - n 부터 m-1까지의 숫자의 시퀀스
+  - 범위 및 스텝 지정 : range(n, m, s)
+    - n 부터 m-1까지 s만큼 증가시키며 숫자의 시퀀스
+- 변경 불가능하며(immutable), 반복 가능함(iterable) 
+
+# 비시퀀스형 컨테이너(Associative Container)
+
+### 세트(Set)
+
+- 유일한 값들의 모음 (collection)
+- 순서가 없고 중복된 값이 없음
+  - 수학에서의 집합과 동일한 구조를 가지며, 집합 연산도 가능
+- 변경 가능하며(mutable), 반복 가능함(iterable)
+  - 단, 셋은 순서가 없어 반복의 결과가 정의한 순서와 다를 수 있음
+
+### 세트(Set) 생성
+
+- 중괄호{} 혹은 set()을 통해 생성
+  - 빈 Set를 만들기 위해서는 set()을 반드시 활용해야 함
+
+```python
+{1, 2, 3, 1, 2} ## {}중괄호를 사용하여 묶어서 중복 값 제거
+# {1, 2, 3}		## {}중괄호를 사용하여 중복 값 제거 결과
+type({1, 2, 3})
+# <class 'set'>
+blank_set = set()
+```
+
+```python
+{'hi', 1, 2}
+# => {1, 2, 'hi'}
+```
+
+- 순서가 없어 별도의 값에 접근할 수 없음
+
+```python
+{1, 2, 3}[0]  # 순서가 없어 인덱스 접근 등 특정 값에 접근할 수 없음
+
+TypeError Traceback (most recent call last) 
+<ipython-input-95-0c8fa4a2ff15> in <module> 
+----> 1 {1, 2, 3}[0] 
+TypeError: 'set' object is not subscriptable
+```
+
+### 세트(Set) 추가/삭제
+
+- 값 추가는 .add() 를 활용하여 추가하고자 하는 값을 전달
+
+  ```python
+  numbers = {1, 2, 3}
+  numbers.add(5)
+  numbers
+  # => {1, 2, 3, 5}
+  numbers.add(1)
+  numbers
+  # => {1, 2, 3, 5}
+  ```
+
+- 값 삭제는 .remove() 를 활용하여 삭제하고자 하는 값을 전달
+
+  ```python
+  numbers = {1, 2, 3}
+  numbers.remove(1)
+  numbers
+  # => {2, 3}
+  numbers.remove(5)
+  # Traceback (most recent call last):
+  # File "<stdin>", line 1, in <module>
+  #KeyError: 5
+  ```
+
+### 세트(Set) 활용
+
+- 세트를 활용하면 다른 컨테이너에서 중복된 값을 쉽게 제거할 수 있음
+
+  - 단, 이후 순서가 무시되므로 순서가 중요한 경우 사용할 수 없음
+
+- 아래의 리스트에서 고유한 지역의 개수는?
+
+  ```py
+  my_list = ['서울', '서울', '대전', '광주', 
+  '서울', '대전', '부산', '부산’]
+  len(set(my_list))
+  # 4
+  set(my_list)
+  # {'광주', '대전', '부산', '서울'}
+
+# 딕셔너리(Dictionary)
+
+### 딕셔너리(Dictionary)
+
+- 키-값 (key-value) 쌍으로 이뤄진 모음 (collection)
+  - 키(key)
+    - 불변 자료형만 가능 (리스트, 딕셔너리 등은 불가능함)
+  - 값(value)
+    - 어떠한 형태든 관계 없음
+- 키와 값은 : 로 구분 됩니다. 개별 요소는 , 로 구분됩니다.
+- 변경 가능하여(mutable) 반복 가능함(iterable)
+  - 딕셔너리는 반복하면 키가 반환됩니다.
+
+### 딕셔너리(Dictionary) 생성
+
+- key와 value가 쌍으로 이뤄진 자료구조
+  - key는 변경 불가능한 데이터(immutable)만 활용 가능
+    - string, integer, float, boolean, tuple, range
+  - value는 모든 값으로 설정 가능 (List, Dictionary 등)
+
+### 딕셔너리(Dictionary) 접근
+
+```python
+movie = {
+'title': '설국열차', 
+'genres': ['SF', '액션', '드라마'],
+'open_date': '2013-08-01',
+'time': 126,
+'adult': False, 
+}
+movie['genres']
+# ['SF', '액션', '드라마']
+
+movie['actors’]
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+KeyError: 'actors'
+```
+
+### 딕셔너리(Dictionary) 키-값 추가 및 변경
+
+- 딕셔너리에 키와 값의 쌍을 추가할 수 있으며,
+
+- 이미 해당하는 키가 있다면 기존 값이 변경됩니다.
+
+  ```python
+  students = {'홍길동': 100, '김철수': 90}
+  students['홍길동'] = 80
+  # {'홍길동': 80, '김철수': 90}
+  students['박영희'] = 95
+  # {'홍길동': 80, '김철수': 90, '박영희': 95}
+  ```
+
+### 딕셔너리(Dictionary) 키-값 삭제
+
+- 키를 삭제하고자하면 .pop()을 활용하여 삭제하고자 하는 키를 전달
+
+  ```python
+  students = {'홍길동': 30, '김철수': 25}
+  students.pop('홍길동')
+  students
+  # {'김철수': 25}
+  ```
+
+- 키가 없는 경우는 KeyError 발생
+
+  ```python
+  students = {'홍길동': 30, '김철수': 25}
+  students.pop('jane')
+  Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  KeyError: 'jane'
+  ```
+
+  
 
 ![image-20220711115122680](Python.assets/image-20220711115122680.png)
-
-- 시권스 : 순서가 O  <- 인덱스로 접근
-  - 문자열(immutable) : 문자들의 나열
-  - 리스트 (mustable) : 변경 가능한 값들의 나열
-  - 튜플(immutable) : 변경 불가능한 값들의 나열
-  - 레인지 (immutable) : 
-
-![image-20220711131228517](Python.assets/image-20220711131228517.png)
-
-![image-20220711131938795](Python.assets/image-20220711131938795.png)
-
-![image-20220711132625875](Python.assets/image-20220711132625875.png)
-
-![image-20220711133201679](Python.assets/image-20220711133201679.png)
-
-![image-20220711144559104](Python.assets/image-20220711144559104.png)
-
-![image-20220711144749510](Python.assets/image-20220711144749510.png)
-
-![image-20220711145204166](Python.assets/image-20220711145204166.png)
-
-### 제어문(Control Statement) 07.12
-
-![image-20220712091943061](Python.assets/image-20220712091943061.png)
-
-![image-20220712092237288](Python.assets/image-20220712092237288.png)
-
-num = input()
-
-if int(num)%2 == 1 :
-
-​    print(num+'은 홀수입니다.')
-
-else :
-
-​	print(num+'은 짝수입니다.')
-
-
-
-num = int(input())
-
-if num >= 151 :
-
-​	print('미세먼지 매우나쁨')
-
-elif num>=80 and num<150 :
-
-​	print('미세먼지 나쁨')
-
-elif num >=30 and num<80
-
-​	print('미세먼지 보통')
-
-else num >= 0 and num <30
-
-​	print('미세먼지 좋음')
-
-#### ![image-20220712094933077](Python.assets/image-20220712094933077.png)
-
-#### 중첩 조건문
-
-#### 조건 표현식
-
-num = int(input())
-
-if num >= 0 :
-
-​	value = num
-
-else :
-
-​	value = -num
-
-![image-20220712102701646](Python.assets/image-20220712102701646.png)
-
-상황에따라 다른값을 저장하고 싶을때 조건 표현식을 작성할수있다.
-
-![image-20220712102812976](Python.assets/image-20220712102812976.png)
-
-#### 반복문
-
-![image-20220712103743698](Python.assets/image-20220712103743698.png)
-
-![image-20220712104928820](Python.assets/image-20220712104928820.png)
-
-### for 문
-
-![image-20220712112218208](Python.assets/image-20220712112218208.png)
-
-![image-20220712112159692](Python.assets/image-20220712112159692.png)
-
-enumerate (심화) -잘 사용안함
-
-![image-20220712112636872](Python.assets/image-20220712112636872.png)
-
-![image-20220712113158994](Python.assets/image-20220712113158994.png)
-
-### 반복문 제어
-
-0
-
-1
-
-2
-
-
-
-0
-
-1
-
-0과 1만 필요해
-
-
-
-
-
-135
-
-![image-20220712114111767](Python.assets/image-20220712114111767.png)
-
-![image-20220712114419106](Python.assets/image-20220712114419106.png)
-
-while 은 참일때 계속 실행
-
-for 문은 시퀀스의 하나하나의 요소를 반복시킨다.
-
-제어할수 있는 두가지
-
-1. 조건문 -> if, 
-
-   ​				else : 선택적, 직접 조건 부여 불가
-
-   ​				if:
-
-   ​				elif:
-
-   ​				else:
-
-   - 조건표현식 -> 값을 조건에 따라 할당하려고 할때 (if , else 까지만 사용가능)(간단한 코드들만 가능)
-
-2. 반복문 -> while ____ : -> 조건이 참이면 계속 실행
-
-   ​										while의 조건문의 참->거직이 되도록 코드를 작성해야한다.
-
-   ​			-> for(변수이름) in (반복가능한 아이) : -> 반복 가능한 아이를 처음부터 끝까지 꺼내준다.
-
-   - 시퀀스
-
-      				1. 그냥 쓰면 요소들이 나옴
-      				2. range로 쓰면 인덱스로 접근
-
-   - 딕셔너리
-
-      				1. 딕셔너리는 기본이 Key로 접근한다. 
-
-제어
-
-break 종료
-
-continue 다음시행
-
-for else: 모든 반복을 하게되면 실행하게된다.
-
-문제 7 풀이
-
-![image-20220712173507997](Python.assets/image-20220712173507997.png)
-
-![image-20220712174345848](Python.assets/image-20220712174345848.png)
-
-![image-20220712174423650](Python.assets/image-20220712174423650.png)
-
