@@ -1,0 +1,3 @@
+![image-20220713114717029](Python_함수.assets/image-20220713114717029.png)
+
+![image-20220713120023498](Python_함수.assets/image-20220713120023498.png)
