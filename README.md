@@ -4,15 +4,15 @@
 
 ## 💕07.04
 
-## [Mark Down](markDown/markDown_summary.md)	
+## [Mark Down](MarkDown/markDown_summary.md)	
 
 ## 💕07.05 - 07.06 
 
-## [Git](git/Git_summary.md)
+## [Git](Git/Git_summary.md)
 
 ## 💕07.07
 
-## [Git Branch](git/Git_branch.md)
+## [Git Branch](Git/Git_branch.md)
 
 ## 💕07.08
 
@@ -20,7 +20,7 @@
 
 ## 💕07.11-07.22
 
-## [Python](python/Python.md)
+## [Python](Python/Python.md)
 
 ## [Python_제어문](Python/Python_제어문.md)
 
