@@ -20,16 +20,16 @@
 
 ## 💕07.11-07.22
 
-## [Python](Python/Python.md)
+## [Python](python/Python.md)
 
-## [Python_제어문](Python/Python_제어문.md)
+## [Python_제어문](python/Python_제어문.md)
 
-## [Python_함수](Python/Python_함수)
+## [Python_함수](python/Python_함수)
 
-## [Python 데이터구조](Python/Python_데이터구조.md)
+## [Python 데이터구조](python/Python_데이터구조.md)
 
-## [Python_에러 예외처리](Python/Python_에러_예외처리.md)
+## [Python_에러 예외처리](python/Python_에러_예외처리.md)
 
-## [Python_클래스](Python/Python_클래스.md)
+## [Python_객체지향](python/Python_객체지향 프로그래밍.md)
 
-## [Python_객체지향 프로그래밍](Python/Python_객체지향 프로그래밍.md)
+## [Python_클래스](python/Python_클래스.md)
