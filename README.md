@@ -25,3 +25,5 @@
 ## [Python_제어문](Python/Python_제어문.md)
 
 ## [Python_함수](Python/Python_함수)
+
+## [Python 데이터구조](Python/Python_데이터구조.md)
