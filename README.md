@@ -30,6 +30,6 @@
 
 ## [Python_에러 예외처리](python/Python_에러_예외처리.md)
 
-## [Python_객체지향](python/Python_객체지향 프로그래밍.md)
+## [Python 객체지향 프로그래밍](python/Python_객체지향_프로그래밍.md)
 
 ## [Python_클래스](python/Python_클래스.md)
