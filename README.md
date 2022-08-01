@@ -42,4 +42,4 @@
 
 ## 💕08.01 
 
-## [스택(Stack)과 큐(Queue)](Algorithm/스택(Stack)과 큐(Queue).md)
+## [스택(Stack)과_큐(Queue)](Algorithm/스택(Stack)과_큐(Queue).md)
