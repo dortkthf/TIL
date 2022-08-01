@@ -1,0 +1,33 @@
+# 1.스택(Stack)
+
+Stack은 쌓는다는 의미로써, 마치 접시를 쌓고 빼듯이 데이터를 한쪽에서만 넣고 빼는 자료구조 가장
+
+마지막에 들어온 데이터가 가장 먼저 나가므로 LIFO(Last-in First-out,후입선출) 방식
+
+![image-20220801212738390](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801212738390.png)
+
+### Stack이 필요한 이유 == Stack의 Use Case
+
+### 1. 뒤집기, 되돌리기, 되돌아가기
+
+### 2. 마무리 되지 않은 일을 임시 저장
+
+### 파이썬은 리스트(List)로 스택을 간편하게 사용할 수 있다!
+
+![image-20220801213201948](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801213201948.png)
+
+![image-20220801213208707](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801213208707.png)
+
+# 2.큐(Queue)
+
+### Queue는 한 쪽 끝에서 데이터를 넣고, 다른 한 쪽에서만 데이터를 뺄 수 있는 자료구조 가장 먼저 들어온 데이터가 가장 먼저 나가므로 FIFO(First-in First-out, 선입선출) 방식
+
+![image-20220801213347779](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801213347779.png)
+
+### 리스트를 이용한 큐 자료구조의 단점
+
+![image-20220801213458192](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801213458192.png)
+
+### 덱은 양 방향 삽입, 추출이 모두 큐보다 훨씬 빠르다. 따라서 데이터의 삽입 추출이 많은 경우 시간을 크게 단축 시킬 수 있다.
+
+![image-20220801213530639](C:\Users\이준엽\Desktop\DEV\Today I Learned TIL\Algorithm\스택(Stack)과 큐(Queue).asset\image-20220801213530639.png)
