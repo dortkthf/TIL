@@ -66,7 +66,11 @@
 
 ## 💕08.10
 
-## [깊이우선탐색(DFS) ](Algorithm/깊이우선탐색(DFS).md)--
+## [깊이우선탐색(DFS)](Algorithm/깊이우선탐색(DFS).md)
+
+## 💕08.11
+
+## [코딩_테스트_준비ll](Algorithm/코딩_테스트_준비ll.md)
 
 ## 💕08.16
 
