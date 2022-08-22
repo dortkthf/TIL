@@ -74,16 +74,21 @@
 
 ## 💕08.16
 
-## [DB_1](DB/DB_1.md)
+## [DB_1_Database_RDB](DB/DB_1_Database_RDB.md)
 
 ## 💕08.17
 
-## [DB_2](DB/DB_2.md)
+## [DB_2_WHERE_LIKE](DB/DB_2_WHERE_LIKE.md)
 
 ## 💕08.18
 
-## [DB_3](DB/DB_3.md)
+## [DB_3_GROUP_BY_ALTER](DB/DB_3_GROUP_BY_ALTER.md)
 
 ## 💕08.19
 
-## [DB_4](DB/DB_4.md)
+## [DB_4_CASE_서브쿼리](DB/DB_4_CASE_서브쿼리.md)
+
+## 💕08.22
+
+## [DB_5_JOIN](DB/DB_5_JOIN.md)
+
