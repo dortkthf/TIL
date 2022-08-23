@@ -1,10 +1,12 @@
 # ❤️‍🔥TIL
 
- 
+## 💕개인_ALGO
+
+## [개인_ALGO](개인ALGO/개인_ALGO.md)
 
 ## 💕07.04 
 
-## [Mark Down](MarkDown/markDown_summary.md)	
+## [Mark Down](MarkDown/markDown_summary.md)
 
 ## 💕07.05 - 07.06 
 
