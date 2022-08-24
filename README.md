@@ -1,8 +1,8 @@
 # ❤️‍🔥TIL
 
-## 💕개인_ALGO
+## ❤️‍🔥 PRIVT_ALGO
 
-## [개인_ALGO](개인ALGO/개인_ALGO.md)
+## [PRIVT_ALGO_ALGO](PRIVT_ALGO/PRIVT_ALGO.md)
 
 ## 💕07.04 
 

@@ -57,6 +57,39 @@ Genre.objects.all()
   genre = Genre()
   genre.name = '인디밴드'
   genre.save()
+  
+  # 낱개로 생성하기
+  
+  Director.objects.create(name = '봉준호', debut = '1993-01-01', country ='KOR')
+  Director.objects.create(name = '김한민', debut = '1999-01-01', country = 'KOR')
+  Director.objects.create(name = '최동훈', debut = '2004-01-01', country = 'KOR')
+  Director.objects.create(name = '이정재', debut = '2022-01-01', country = 'KOR')
+  Director.objects.create(name = '이경규', debut = '1992-01-01', country = 'KOR')
+  Director.objects.create(name = '한재림', debut = '2005-01-01', country = 'KOR')
+  Director.objects.create(name = 'Joseph Kosinski', debut = '1999-01-01', country = 'KOR')
+  Director.objects.create(name = '김철수', debut = '2022-01-01', country = 'KOR')
+  
+  # bulk_create 로 여러개 생성하기
+  
+  Director.objects.bulk_create([
+      Director(name = '봉준호', debut = '1993-01-01', country ='KOR'),
+      Director(name = '김한민', debut = '1999-01-01', country = 'KOR'),
+      Director(name = '최동훈', debut = '2004-01-01', country = 'KOR'),
+      Director(name = '이정재', debut = '2022-01-01', country = 'KOR'),
+      Director(name = '이경규', debut = '1992-01-01', country = 'KOR'),
+      Director(name = '한재림', debut = '2005-01-01', country = 'KOR'),
+      Director(name = 'Joseph Kosinski', debut = '1999-01-01', country = 'KOR'),
+      Director(name = '김철수', debut = '2022-01-01', country = 'KOR')
+      ])
+  
+  # 인스턴스로 추가하기
+  
+  genres = ['액션','드라마','사극','범죄','스릴러','SF','무협','첩보','재난']
+  
+  for gen in genres:
+      genre = Genre()
+      genre.title = gen
+      genre.save()
   ```
 
 - Read
@@ -67,13 +100,24 @@ Genre.objects.all()
   # <QuerySet [<Genre: Genre object (1)>, <Genre: 
   Genre object (2)>]>
   
+  director = Director.objects.all()
+  for dir in director:
+      print(dir.name,dir.debut,dir.country)
+  
   # 2. 일부 데이터 조회(get)
   Genre.objects.get(id=1)
   # <Genre: Genre object (1)>
   
+  data = Director.objects.get(id=1)
+  print(data.name,data.debut,data.country)
+  
   # 3. 일부 데이터 조회(filter)
   Genre.objects.filter(id=1)
   # <QuerySet [<Genre: Genre object (1)>]>
+  
+  data = Director.objects.filter(country='KOR')
+  for da in data:
+      print(da.name,da.debut,da.country)
   ```
 
 - Update
@@ -87,6 +131,10 @@ Genre.objects.all()
   
   # 3. genre 객체 저장
   genre.save()
+  
+  data = Director.objects.get(name='Joseph Kosinski')
+  data.country = 'USA'
+  data.save()
   ```
 
 - Delete
