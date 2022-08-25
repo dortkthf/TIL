@@ -101,3 +101,8 @@
 ## 💕08.24
 
 ## [DB_7_ORM](DB/DB_7_ORM.md)
+
+## 💕08.25
+
+## [DB_8_QuerySet_API](DB/DB_8_QuerySet_API.md)
+
