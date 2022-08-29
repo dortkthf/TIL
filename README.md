@@ -1,8 +1,10 @@
 # ❤️‍🔥TIL
 
-## ❤️‍🔥 PRIVT_ALGO
+## ❤️‍🔥 PRIVT_
 
-## [PRIVT_ALGO_ALGO](PRIVT_ALGO/PRIVT_ALGO.md)
+## [PRIVT_ALGO_ALGO](PRIVT_/PRIVT_ALGO.md)
+
+## [HTML_요소정리](WEB/HTML_요소정리.md)
 
 ## 💕07.04 
 
@@ -106,3 +108,6 @@
 
 ## [DB_8_QuerySet_API](DB/DB_8_QuerySet_API.md)
 
+## 💕08.29
+
+## [WEB_1](WEB/WEB_1.md)
