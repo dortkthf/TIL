@@ -2,7 +2,7 @@
 
 ## ❤️‍🔥 PRIVT_
 
-## [PRIVT_ALGO_ALGO](PRIVT_/PRIVT_ALGO.md)
+## [PRIVT_ALGO_ALGO](PRIVT/PRIVT_ALGO.md)
 
 ## [HTML_요소정리](WEB/HTML_요소정리.md)
 

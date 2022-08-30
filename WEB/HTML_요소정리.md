@@ -10,6 +10,8 @@
   - [target 속성](# target)
   - [type 속성](# type)
 - [**< abbr > 태그**](# <-abbr->)
+- [**< address > 태그**](# <-address->)
+- [**< area >**](# <-area->)
 
 # < a > 
 
@@ -134,3 +136,119 @@ accessed.</p>
 ## 접근성 고려사항
 
 준말과 머리글자가 처음 사용될 때, 그 뜻을 풀어 설명하면 독자가 문서를 이해하기 쉬워집니다. 특히 콘텐츠가 기술이나 산업에 관련된 전문적인 내용인 경우 더욱 그렇습니다.
+
+# < address >
+
+HTML `<address>`요소는 가까운 HTML 요소의 사람, 단체, 조직 등에 대한 연락처 정보를 나타냅니다.
+
+`<address>`요소의 콘텐츠가 제공하는 연락처 정보는 현재 맥락에 적절한 아무 형태나 취할수 있으며, 물리적 주소, URL, 이메일 주소, 전화번호, SNS 식별자, 좌표 등 어떠한 정보라도 포함할 수 있습니다. 반드시 포함해야 하는 정보는 연락처가 가리키는 개인, 조직, 단체의 이름입니다.
+
+`<address>`는 다양한 맥락에서 사용할 수 있습니다. 사업체 연락 방법을 페이지 헤더에 배치할 때도 쓸 수 있고,`<article>`내부에 배치해서 글의 작성자를 나타낼 수도 있습니다.
+
+**예제**
+
+```html
+<address>
+  You can contact author at <a href="http://www.somedomain.com/contact">
+  www.somedomain.com</a>.<br>
+  If you see any bugs, please <a href="mailto:webmaster@somedomain.com">
+  contact webmaster</a>.<br>
+  You may also want to visit us:<br>
+  Mozilla Foundation<br>
+  331 E Evelyn Ave<br>
+  Mountain View, CA 94041<br>
+  USA
+</address>
+```
+
+**결과**
+
+*You can contact author at* [www.somedomain.com](http://www.somedomain.com/contact)*.*
+*If you see any bugs, please* [contact webmaster](mailto:webmaster@somedomain.com)*.*
+*You may also want to visit us:*
+*Mozilla Foundation*
+*331 E Evelyn Ave*
+*Mountain View, CA 94041*
+*USA*
+
+비록 겉보기는 `<i>` 나 `<em>` 요소와 같지만, `<address>` 요소는 자체적인 의미를 갖고 있으므로 연락처 표기에는 `<address>`가 더 적합합니다.
+
+# < area >
+
+HTML `<area>`요소는 이미지의 핫스팟 영역을 정의하고 하이퍼링크를 `<map>`요소 안에서만 사용할 수 있습니다.
+
+**예제**
+
+```html
+<map name="infographic">
+    <area shape="rect" coords="184,6,253,27"
+          href="https://mozilla.org"
+          target="_blank" alt="Mozilla" />
+    <area shape="circle" coords="130,136,60"
+          href="https://developer.mozilla.org/"
+          target="_blank" alt="MDN" />
+    <area shape="poly" coords="130,6,253,96,223,106,130,39"
+          href="https://developer.mozilla.org/docs/Web/Guide/Graphics"
+          target="_blank" alt="Graphics" />
+    <area shape="poly" coords="253,96,207,241,189,217,223,103"
+          href="https://developer.mozilla.org/docs/Web/HTML"
+          target="_blank" alt="HTML" />
+    <area shape="poly" coords="207,241,54,241,72,217,189,217"
+          href="https://developer.mozilla.org/docs/Web/JavaScript"
+          target="_blank" alt="JavaScript" />
+    <area shape="poly" coords="54,241,6,97,36,107,72,217"
+          href="https://developer.mozilla.org/docs/Web/API"
+          target="_blank" alt="Web APIs" />
+    <area shape="poly" coords="6,97,130,6,130,39,36,107"
+          href="https://developer.mozilla.org/docs/Web/CSS"
+          target="_blank" alt="CSS" />
+</map>
+<img usemap="#infographic" src="/media/examples/mdn-info.png" alt="MDN infographic" />
+```
+
+**결과**
+
+![MDN infographic](https://interactive-examples.mdn.mozilla.net/media/examples/mdn-info.png)
+
+**특성**
+
+#### `alt`
+
+이미지를 출력하지 않는 브라우저에서 대신 표시할 대안 텍스트입니다. 텍스트의 내용은 대안 텍스트 없이 이미지만 표시할 때와 동일한 수준의 선택지를 나타낼 수 있어야 합니다. `href`특성이 존재할 경우 필수 사항입니다.
+
+#### `coords`
+
+핫스팟 영역을 지정하는 일련의 좌표입니다. 값의 수와 의미는 `shape`특성의 값에 따라 달라집니다.
+
+- `rect`: 좌상단과 우하단을 나타내는 두 개의 x, y 쌍입니다.
+- `circle`: `x,y,r`로서 `x,y`는 원의 중심 좌표이며 `r`은 반지름 입니다.
+- `poly`: 다각형의 꼭지점을 나타내는 다수의 x, y 쌍 (x1,y1,x2,y2,x3,y3,...) 입니다.
+
+값의 단위는 CSS 픽셀입니다.
+
+#### `download`
+
+특성이 존재할 경우, 이 하이퍼링크는 리소스 다운로드 용도로 사용하는 것을 의도했음을 나타냅니다.
+
+#### `href`
+
+`<area>` 하이퍼링크의 대상입니다. 유효한 URL이야 합니다. 생략할 경우, 이`<area>`요소는 하이퍼링크를 나타내지 않습니다.
+
+#### `ping`
+
+하이퍼링크를 따라갈 때. 백그라운드에서 브라우저가 POST요청을 본문 `PING`으로 전성할 URL의 목록입니다. 공백으로 구분하며 주로 추적용으로 사용합니다.
+
+#### `shape`
+
+지정할 스팟의 모양을 정합니다. `rect`, `circle`, `poly` 가 있습니다.
+
+#### `target`
+
+이 속성은 링크된 리소스가 어디에 표시될지 지정합니다.
+
+- _self : 결과를 현재 HTML4 프레임 또는 HTML5 브라우징 컨텍스트에 로드합니다.  이 target속성이 정의되어있지 않은경우 이 값이 기본값이 됩니다.
+- _blank: 결과를 이름없는 새로운 HTML4 윈도우나 HTML5 브라우징 컨텍스트에 로드합니다.
+- _parent: 결과를 현재 HTML4 프레임의 부모 프레임셋에 로드하거나 부모 HTML5 브라우징 컨텍스트에 로드합니다. 만약 부모가 없을경우 _self와 동일하게 여겨집니다.
+- _top: HTML4 에서는, 다른 모든 프레임을 취소하고 결과를 꽉찬 본래의 윈도우에 로드합니다. HTML5에서는, 결과를 최상위 브라우징 컨텍스트에 로드합니다. 만약 부모가 없다면 이 옵션은 _self와 같이 행동합니다. 
+
+이 속성은 href속성이 존재할때만 사용합니다.
