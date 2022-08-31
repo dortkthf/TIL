@@ -3,15 +3,9 @@
 ## 목차
 
 - [**< a > 태그**](# <-a->)
-  - [href 속성](# href)
-  - [download 속성](# download)
-  - [ping 속성](# ping)
-  - [rel 속성](# rel)
-  - [target 속성](# target)
-  - [type 속성](# type)
 - [**< abbr > 태그**](# <-abbr->)
 - [**< address > 태그**](# <-address->)
-- [**< area >**](# <-area->)
+- [**< area > 태그**](# <-area->)
 
 # < a > 
 
@@ -252,3 +246,125 @@ HTML `<area>`요소는 이미지의 핫스팟 영역을 정의하고 하이퍼�
 - _top: HTML4 에서는, 다른 모든 프레임을 취소하고 결과를 꽉찬 본래의 윈도우에 로드합니다. HTML5에서는, 결과를 최상위 브라우징 컨텍스트에 로드합니다. 만약 부모가 없다면 이 옵션은 _self와 같이 행동합니다. 
 
 이 속성은 href속성이 존재할때만 사용합니다.
+
+# < article >
+
+HTML `<article>`요소는 문서, 페이지, 애플리케이션, 또는 사이트 안에서 독립적으로 구분해 배포하거나 재사용할 수 있는 구획을 나타냅니다. 사용 예제로 게시판과 블로그 글, 매거진이나 뉴스 기사 등이 있습니다.
+
+## 예제
+
+```html
+<article class="forecast">
+    <h1>Weather forecast for Seattle</h1>
+    <article class="day-forecast">
+        <h2>03 March 2018</h2>
+        <p>Rain.</p>
+    </article>
+    <article class="day-forecast">
+        <h2>04 March 2018</h2>
+        <p>Periods of rain.</p>
+    </article>
+    <article class="day-forecast">
+        <h2>05 March 2018</h2>
+        <p>Heavy rain.</p>
+    </article>
+</article>
+
+```
+
+```css
+.forecast {
+    margin: 0;
+    padding: .3rem;
+    background-color: #eee;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+.forecast > h1,
+.day-forecast {
+    margin: .5rem;
+    padding: .3rem;
+    font-size: 1.2rem;
+}
+
+.day-forecast {
+    background: right/contain content-box border-box no-repeat
+        url('/media/examples/rain.svg') white;
+}
+
+.day-forecast > h2,
+.day-forecast > p {
+    margin: .2rem;
+    font-size: 1rem;
+}
+```
+
+## 결과
+
+![image-20220831233206259](HTML_요소정리.assets/image-20220831233206259.png)
+
+하나의 문서가 여러 개의 `<article>`을 가질 수 있습니다. 예컨대 사용자가 스크롤하면 계속해서 다음 글을 보여주는 블로그의 경우, 각각의 글이 `<article>`요소가 되며, 그 안에는 또 여러 개의 `<section>`이 존재할 수 있습니다.
+
+# < aside >: 별도 구획 요소
+
+HTML `<aside>`요소는 문서의 주요 내용과 간접적으로만 연관된 부분을 나타냅니다. 주로 사이드바 혹은 콜아웃 박스로 표현합니다.
+
+## 예제
+
+```html
+<article>
+  <p>
+    디즈니 만화영화 <em>인어 공주</em>는
+    1989년 처음 개봉했습니다.
+  </p>
+  <aside>
+    인어 공주는 첫 개봉 당시 8700만불의 흥행을 기록했습니다.
+  </aside>
+  <p>
+    영화에 대한 정보...
+  </p>
+</article>
+```
+
+
+
+## 결과
+
+디즈니 만화영화 *인어 공주*는 1989년 처음 개봉했습니다.
+
+인어 공주는 첫 개봉 당시 8700만불의 흥행을 기록했습니다.
+
+영화에 대한 정보...
+
+# < audio >
+
+HTML `<audio>` 요소는 문서에 소리 콘텐츠를 포함할 때 사용합니다. src측성 또는 <source>_(en-US) 요소를 사용해 한 개 이상의 오디오 소스를 지정할 수 있으며, 다수를 지정한 경우 가장 적절한 소스를 브라우저가 고릅니다. MediaStream_(en-US)을 사용하면 미디어 스트림을 바라볼 수도 있습니다.
+
+## 예제
+
+```html
+<figure>
+    <figcaption>Listen to the T-Rex:</figcaption>
+    <audio
+        controls
+        src="/media/cc0-audio/t-rex-roar.mp3">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+</figure>
+```
+
+## 결과
+
+![image-20220831234513150](HTML_요소정리.assets/image-20220831234513150.png)
+
+## 특성
+
+`autiplay`
+
+지정한 경우, 전체 오디오 파일의 다운로드를 기다리지 않고 가능한 빠른 시점에 재생을 시작합니다.
+
+`controls`
+
+지정한 경우 오디오 재생, 볼륨, 탐색, 일시 정지 컨트롤을 브라우저에서 제공합니다.
+
