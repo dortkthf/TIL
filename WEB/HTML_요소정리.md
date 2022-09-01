@@ -368,3 +368,125 @@ HTML `<audio>` 요소는 문서에 소리 콘텐츠를 포함할 때 사용합�
 
 지정한 경우 오디오 재생, 볼륨, 탐색, 일시 정지 컨트롤을 브라우저에서 제공합니다.
 
+# < b >
+
+HTML `<b>`요소는 독자의 주의를 요소의 콘텐츠로 끌기 위한 용도로 사용합니다. 그 외의 다른 특별한 중요도는 주어지지 않습니다. 원래는 "굵은 글씨 요소"로 불렸으며, 대부분의 브라우저도 여전히 텍스트를 굵은 글씨체로 강조합니다. 그러나 `<b>`를 사용해 텍스트를 꾸미면 안됩니다. 대신 CSS `font-weight`를 사용해 굵은 글씨체를 적용하거나, `<strong>`요소를 사용해 특별히 중요한 텍스트를 나타내세요.
+
+## 예제
+
+```html
+<p>The two most popular science courses offered by the school are <b class="term">chemistry</b> (the study of chemicals and the composition of substances) and <b class="term">physics</b> (the study of the nature and properties of matter and energy).</p>
+```
+
+## 결과
+
+The two most popular science courses offered by the school are **chemistry** (the study of chemicals and the composition of substances) and **physics** (the study of the nature and properties of matter and energy).
+
+## 사용일람
+
+- 요약 키워드, 리뷰의 제품명 등, 특별한 중요성을 가지고 있지는 않지만 굵게 표시할 부분에 <b>를 사용하세요.
+- <b>요소와 <strong>, <em>, <mark>요소를 혼동하지 않도록 주의하세요. <strong> 요소는 중요한 글을, <em>요소는 약간의 강조가 필요한 글을, <mark>요소는 관련성이 있는 글을 나타냅니다. <b>요소는 아무런 의미도 갖지 않으므로 다른 요소가 적합하지 않을 때만 사용하세요.
+- 비슷한 이유로 <b>요소로만 제목을 만들어선 안됩니다. 제목은 <h1>에서 <h6>태그로 표현하세요. 특히 스타일시트를 사용해 제목 요소의 스타일을 바꿀 수 있다는 점을 생각해보면, 제목이 꼭 굵은 글씨체일 필요는 없습니다.
+- 과거 <b>요소는 굵은 글씨를 만들 때 사용했습니다. HTML4부터 스타일 정보는 사용하지 않으므로 <b>요소의 의미도 바뀌었습니다.
+- <b>의 의미와 관계 없이 굵은 글씨를 사용하고 있다면, CSS font-weight속성의 "bold" 값을 사용하는 방법을 고려하세요.
+
+# < bdo >
+
+HTML <bdo> 요소는 현재 텍스트의 쓰기 방향을 덮어쓰고 다른 방향으로 렌더링 할 때 사용합니다.
+
+## 특성
+
+`dir`
+
+요소 콘텐츠의 텍스트 쓰기 방향. 가능한 값은 다음과 같습니다.
+
+- `ltr`: 텍스트를 왼쪽에서 오른쪽으로 써야 함을 나타냅니다.
+- `rtl`: 텍스트를 오른쪽에서 왼쪽으로 써야 함을 나타냅니다.
+
+## 예제
+
+```html
+<!-- 쓰기 방향 바꾸기 -->
+<p>이 글은 왼쪽에서 오른쪽으로 작성합니다.</p>
+<p><bdo dir="rtl">이 글은 오른쪽에서 왼쪽으로 작성합니다.</bdo></p>
+```
+
+## 결과
+
+![image-20220902011507281](HTML_요소정리.assets/image-20220902011507281.png)
+
+# < blockquote >
+
+HTML <blockquote>요소는 안쪽의 텍스트가 긴 인용문임을 나타냅니다. 주로 들여쓰기를 한 것으로 그려집니다. (외형을 바꾸는 법은 사용 일람을 참고하세요) 인용문의 출처 URL은 cite 특성으로 출처 텍스트는 <cite>요소로 제공할 수 있습니다.
+
+## 특성
+
+`cite`
+
+인용문의 출처 문서나 메시지를 가리키는 URL. 인용문의 맥락 혹은 출처 정보를 가리킬 용도입니다.
+
+## 예시
+
+```html
+<blockquote cite="https://tools.ietf.org/html/rfc1149">
+  <p>Avian carriers can provide high delay, low
+  throughput, and low altitude service.  The
+  connection topology is limited to a single
+  point-to-point path for each carrier, used with
+  standard carriers, but many carriers can be used
+  without significant interference with each other,
+  outside of early spring.  This is because of the 3D
+  ether space available to the carriers, in contrast
+  to the 1D ether used by IEEE802.3.  The carriers
+  have an intrinsic collision avoidance system, which
+  increases availability.</p>
+</blockquote>
+```
+
+## 결과 
+
+실제결과는 안으로 들여쓰기가 되어있는 상태이다.
+
+> Avian carriers can provide high delay, low throughput, and low altitude service. The connection topology is limited to a single point-to-point path for each carrier, used with standard carriers, but many carriers can be used without significant interference with each other, outside of early spring. This is because of the 3D ether space available to the carriers, in contrast to the 1D ether used by IEEE802.3. The carriers have an intrinsic collision avoidance system, which increases availability.
+
+# < br >
+
+HTML `<br>`요소는 텍스트 안에 줄바꿈(캐리지 리턴)을 생성합니다. 주소나 시조 등 줄의 구분이 중요한 내용을 작성할 때 유용합니다.
+
+> 참고 : 문단 사이에 여백을 두기 위한 용도로 <br>을 사용하지 마세요. 대신 <p>요소로 감싼 후 CSS 의 margin 속성으로 여백의 크기를 조절하세요.
+
+#  < button >
+
+HTML <button>요소는 클릭 가능한 버튼을 나타냅니다. 버튼은 양식 내부는 물론 간단한 표준 버튼 기능이 필요한 곳이라면 문서 어디에나 배치할 수 있습니다, 기본값의 HTML 버튼은 사용자 에이전트의 호스트 ㅡㄹ랫폼과 비슷한 디자인을 따라가지만 외형은 CSS 로 변경할 수 있습니다.
+
+```html
+<button class="favorite styled"
+        type="button">
+    Add to favorites
+</button>
+```
+
+![image-20220902013048360](HTML_요소정리.assets/image-20220902013048360.png)
+
+## 특성
+
+`autofocus`
+
+​	페이지 로드 후, 이 버튼에 포커스가 위치해야 하는지 나타냅니다. 문서 내에서 하나의 요소	만 `autofocus`특성을 가질 수 있습니다.
+
+`dusabled`
+
+​	버튼과 사용자의 상호작용, 즉 누르거나 클릭하는 것을 막습니다.
+
+`form`
+
+​	버튼과 연결할 `<form>`요소. 같은 문서에 존재하는 `<form>`요소의 id 특성 값을 사용해야
+
+​	합니다. `<form>` 특성을 지정하지 않았으나 조상 중 `<form>`요소가 존재하면 해당 `<form>`	과 연결됩니다.
+
+`formmethod`
+
+`<button>`이 제출 버튼인 경우, `<formmethod>`특성은 양식을 서버로 제출할 때 사용할 HTTP 메서드를 지정합니다. 가능한 값은 다음과 같습니다.
+
+- post : 양식의 데이터를 HTTP 요청 본문에 넣습니다. 비밀번호처럼,양식 데이터 중 공개하지 않아야 하는 항목이 있으면 사용하세요.
+- get:양식 action URL 뒤에 ? 를 추가한 후 양식 데이터를 덧붙입니다. 검색 양식처럼, 양식이 사이드 이펙트를 가지 않을 때 사용하세요.
