@@ -6,6 +6,18 @@
 - [**< abbr > 태그**](# <-abbr->)
 - [**< address > 태그**](# <-address->)
 - [**< area > 태그**](# <-area->)
+- [**< article > 태그**](# <-article->)
+- [**< aside > 태그**](# <-aside->)
+- [**< audio > 태그**](# <-audio->)
+- [**< b > 태그**](# <-b->)
+- [**< bdo > 태그**](# <-bdo->)
+- [**< blockquote > 태그**](# <-blockquote->)
+- [**< br > 태그**](# <-br->)
+- [**< button > 태그**](# <-button->)
+- [**< canvas > 태그**](# <-canvas->)
+- [**< caption > 태그**](# <-caption->)
+- [**< cite > 태그**](# <-cite->)
+- [**< code > 태그**](# <-code->)
 
 # < a > 
 
@@ -305,7 +317,7 @@ HTML `<article>`요소는 문서, 페이지, 애플리케이션, 또는 사이�
 
 하나의 문서가 여러 개의 `<article>`을 가질 수 있습니다. 예컨대 사용자가 스크롤하면 계속해서 다음 글을 보여주는 블로그의 경우, 각각의 글이 `<article>`요소가 되며, 그 안에는 또 여러 개의 `<section>`이 존재할 수 있습니다.
 
-# < aside >: 별도 구획 요소
+# < aside >
 
 HTML `<aside>`요소는 문서의 주요 내용과 간접적으로만 연관된 부분을 나타냅니다. 주로 사이드바 혹은 콜아웃 박스로 표현합니다.
 
@@ -601,4 +613,6 @@ The `push()` method adds one or more elements to the end of an array and returns
 
 ### 참고
 
-여러 줄의 코드를 나타내려면
+여러 줄의 코드를 나타내려면 < code > 요소를 < pre > 로 감싸세요. 보통 상황에서 < code > 는 코드 한 줄만 나타냅니다. 
+
+CSS code 태그 선택자를 사용해 브라우저의 기본 글씨체를 바꿀 수 있습니다. 그러나 사용자 설정이 CSS 보다 우선할 수도 있습니다.
