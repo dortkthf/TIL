@@ -616,3 +616,39 @@ The `push()` method adds one or more elements to the end of an array and returns
 여러 줄의 코드를 나타내려면 < code > 요소를 < pre > 로 감싸세요. 보통 상황에서 < code > 는 코드 한 줄만 나타냅니다. 
 
 CSS code 태그 선택자를 사용해 브라우저의 기본 글씨체를 바꿀 수 있습니다. 그러나 사용자 설정이 CSS 보다 우선할 수도 있습니다.
+
+# < col>
+
+HTML col 요소는 표의 열을 나타내며, 열에 속하는 칸에 공통된 의미를 부여할 때 사용합니다. <colgroup> 안에서 찾을 수 있습니다.
+
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span="2" class="batman">
+        <col span="2" class="flash">
+    </colgroup>
+    <tr>
+        <td> </td>
+        <th scope="col">Batman</th>
+        <th scope="col">Robin</th>
+        <th scope="col">The Flash</th>
+        <th scope="col">Kid Flash</th>
+    </tr>
+    <tr>
+        <th scope="row">Skill</th>
+        <td>Smarts</td>
+        <td>Dex, acrobat</td>
+        <td>Super speed</td>
+        <td>Super speed</td>
+    </tr>
+</table>
+
+![image-20220907013202608](HTML_요소정리.assets/image-20220907013202608.png)
+
+### 특성
+
+`span`
+
+​	`<col>`이 차지할 열의 수를 나타내는 양의 정수. 기본값은 1입니다.
+

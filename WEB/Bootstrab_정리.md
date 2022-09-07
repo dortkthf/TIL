@@ -476,3 +476,277 @@ table 요소는 캘린더나 날짜 선택기 같은 서드 파티 위젯에서 
 </figure>
 ```
 
+# 폼
+
+## 개요
+
+Bootstrap의 폼 컨트롤은 Reboot된 폼 스타일과 함께 사용합니다. 이 클래스를 사용해 재정의 된 표시를 선택하면 브라우저나 기기 간에 보다 일관된 렌더링을 적용시킬 수 있습니다.
+
+메일 인증이나 숫자 선택 등의 새로운 입력 컨트롤을 사용하기 위해 모든 입력에 적절한 type 속성(메일 주소에는 email, 숫자 정보에는 number)을 사용해주세요.
+
+여기에서는 Bootstrap의 폼 스타일의 간단한 예시를 소개합니다. 필수 클래스, 폼 레이아웃 등의 문서에 대해서는 계속해서 읽어 주세요.
+
+###  폼 텍스트
+
+블록 라벨(block-level) 또는 인라인 레벨(inline-level) 의 폼 텍스트는 .form-text를 사용 합니다.
+
+> 폼 텍스트를 폼 컨트롤과 묶기
+>
+> 폼 텍스트는 aria-describedby 속성을 사용해 관련된 폼 컨트롤과 명시적으로 관련지어야 합니다. 그러면 사용자가 폼에 포커스를 주거나 입력할 때 스크린 리더 등의 지원 기술이 이 폼 텍스트를 정확하게 읽을 수 있습니다.
+
+입력 폼 아래에 있는 폼 텍스트는 .form-text 로 스타일링 할 수 있습니다. 블록 라벨의 요소가 사용되는 경우에는 위의 립력 폼과의 간격을 위해 상단의 여백이 함께 포함되어 있습니다.
+
+![image-20220907132254533](Bootstrab_정리.assets/image-20220907132254533.png)
+
+```html
+<label for="inputPassword5" class="form-label">Password</label>
+<input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+<div id="passwordHelpBlock" class="form-text">
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+</div>
+```
+
+인라인 텍스트는 전형적인 인라인 HTML 요소 (< span>, < small> 등) 로 .form-text 클래스 이외에는 사용하지 않습니다.
+
+![image-20220907133219705](Bootstrab_정리.assets/image-20220907133219705.png)
+
+```html
+<div class="row g-3 align-items-center">
+  <div class="col-auto">
+    <label for="inputPassword6" class="col-form-label">Password</label>
+  </div>
+  <div class="col-auto">
+    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+  </div>
+  <div class="col-auto">
+    <span id="passwordHelpInline" class="form-text">
+      Must be 8-20 characters long.
+    </span>
+  </div>
+</div>
+```
+
+## 폼 컨트롤
+
+텍스트 형식의 < input> 이나 < textarea> 과 같은 폼 컨트롤에 사용자 정의 스타일, 크기 조정, 포커스 상태등의 업그레이드를 실시할 수 있습니다.
+
+### 예시
+
+![image-20220907171523034](Bootstrab_정리.assets/image-20220907171523034.png)
+
+```html
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Email address</label>
+  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+```
+
+### 크기 조절
+
+.form-control-lg 와 .form-control-sm 클래스를 사용해서 크기를 다르게 설정할 수 있습니다.
+
+![image-20220907171641053](Bootstrab_정리.assets/image-20220907171641053.png)
+
+```html
+<input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example">
+<input class="form-control" type="text" placeholder="Default input" aria-label="default input example">
+<input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example">
+```
+
+### 비활성화
+
+disabled 불리언 속성을 추가하면 비활성화외형이 되면서 포인터 이벤트가 삭제됩니다.
+
+![image-20220907171834061](Bootstrab_정리.assets/image-20220907171834061.png)
+
+```html
+<input class="form-control" type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled>
+<input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
+```
+
+### 읽기 전용
+
+readonly 불리언 속성을 추가함으로써 입력 값의 변경을 막을 수 있습니다.
+
+![image-20220907172032460](Bootstrab_정리.assets/image-20220907172032460.png)
+
+```html
+<input class="form-control" type="text" value="Readonly input here..." aria-label="readonly input example" readonly>
+```
+
+### 읽기 전용 일반 텍스트
+
+폼 내의 < input readonly> 요소를 일반 텍스트로 표시하고 싶은 경우, .form-control-plaintext 클래스를 사용합니다. 기본 폼 필드의 스타일을 삭제하고 그에 맞는 마진과 패딩을 유지한 일반 텍스트로 보여집니다.
+
+![image-20220907172919839](Bootstrab_정리.assets/image-20220907172919839.png)
+
+```html
+  <div class="mb-3 row">
+    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword">
+    </div>
+  </div>
+```
+
+![image-20220907173724255](Bootstrab_정리.assets/image-20220907173724255.png)
+
+```html
+<form class="row g-3">
+  <div class="col-auto">
+    <label for="staticEmail2" class="visually-hidden">Email</label>
+    <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
+  </div>
+  <div class="col-auto">
+    <label for="inputPassword2" class="visually-hidden">Password</label>
+    <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+  </div>
+</form>
+```
+
+### 파일 선택
+
+![image-20220907174833445](Bootstrab_정리.assets/image-20220907174833445.png)
+
+```html
+<div class="mb-3">
+  <label for="formFile" class="form-label">Default file input example</label>
+  <input class="form-control" type="file" id="formFile">
+</div>
+<div class="mb-3">
+  <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+  <input class="form-control" type="file" id="formFileMultiple" multiple>
+</div>
+<div class="mb-3">
+  <label for="formFileDisabled" class="form-label">Disabled file input example</label>
+  <input class="form-control" type="file" id="formFileDisabled" disabled>
+</div>
+<div class="mb-3">
+  <label for="formFileSm" class="form-label">Small file input example</label>
+  <input class="form-control form-control-sm" id="formFileSm" type="file">
+</div>
+<div>
+  <label for="formFileLg" class="form-label">Large file input example</label>
+  <input class="form-control form-control-lg" id="formFileLg" type="file">
+</div>
+```
+
+![image-20220907175447970](Bootstrab_정리.assets/image-20220907175447970.png)
+
+```html
+<label for="exampleColorInput" class="form-label">Color picker</label>
+<input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+```
+
+### 데이터 목록
+
+데이터 목록을 사용하면 < input> 안에서 엑세스(및 자동 보완) 할 수 있는 < option> 그룹을 작성할 수 있습니다. 이들은 < select> 요소와 비슷하지만 목록 표시에는 많은 제한과 차이가 있습니다. 대부분의 브라우저나 운영 체계는 < datalist>요소를 어느 정도 지원하고 있지만, 그 표시에는 일관성이 없습니다.
+
+![](Bootstrab_정리.assets/image-20220908012014284.png)
+
+```html
+<label for="exampleDataList" class="form-label">Datalist example</label>
+<input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+<datalist id="datalistOptions">
+  <option value="San Francisco">
+  <option value="New York">
+  <option value="Seattle">
+  <option value="Los Angeles">
+  <option value="Chicago">
+</datalist>
+```
+
+## 셀렉트
+
+브라우저의 기본 < select> 를 사용자 정의 CSS로 만들어 요소의 초기 표시를 변경할 수 있습니다.
+
+### 기본값
+
+사용자 정의의 < select>를 사용하기 위해 필요한 클래스는 .form-select 입니다. 이 스타일은 브라우저 제한으로 < select>의 처음 외형만 변경할 수 있고 그안에 있는 < option> 들의 스타일 변경은 불가능합니다.
+
+![image-20220908014321452](Bootstrab_정리.assets/image-20220908014321452.png)
+
+```html
+<select class="form-select" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+```
+
+### 크기 조절
+
+같은 크기의 텍스트 입력에 맞춰 크고 작은 사용자 정의 셀렉트를 선택해 사용할 수 있습니다.
+
+![image-20220908014417791](Bootstrab_정리.assets/image-20220908014417791.png)
+
+```html
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+```
+
+그리고 multiple 속성도 지원됩니다.
+
+![image-20220908014717870](Bootstrab_정리.assets/image-20220908014717870.png)
+
+```html
+<select class="form-select" multiple aria-label="multiple select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+```
+
+또한 size 속성도 지원됩니다.
+
+![image-20220908014845198](Bootstrab_정리.assets/image-20220908014845198.png)
+
+```html
+<select class="form-select" size="3" aria-label="size 3 select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+```
+
+### 비활성화
+
+불리언 속성인 disabled를 셀렉트에 추가하면 비활성화된 외형으로 표시되며 포인터 이벤트가 삭제됩니다.
+
+![image-20220908014958831](Bootstrab_정리.assets/image-20220908014958831.png)
+
+```html
+<select class="form-select" aria-label="Disabled select example" disabled>
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</select>
+```
