@@ -652,3 +652,338 @@ HTML col 요소는 표의 열을 나타내며, 열에 속하는 칸에 공통된
 
 ​	`<col>`이 차지할 열의 수를 나타내는 양의 정수. 기본값은 1입니다.
 
+### 예제
+
+**코드**
+
+```html
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span="2" class="batman">
+        <col span="2" class="flash">
+    </colgroup>
+    <tr>
+        <td> </td>
+        <th scope="col">Batman</th>
+        <th scope="col">Robin</th>
+        <th scope="col">The Flash</th>
+        <th scope="col">Kid Flash</th>
+    </tr>
+    <tr>
+        <th scope="row">Skill</th>
+        <td>Smarts</td>
+        <td>Dex, acrobat</td>
+        <td>Super speed</td>
+        <td>Super speed</td>
+    </tr>
+</table>
+```
+
+**결과**
+
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span="2" class="batman">
+        <col span="2" class="flash">
+    </colgroup>
+    <tr>
+        <td> </td>
+        <th scope="col">Batman</th>
+        <th scope="col">Robin</th>
+        <th scope="col">The Flash</th>
+        <th scope="col">Kid Flash</th>
+    </tr>
+    <tr>
+        <th scope="row">Skill</th>
+        <td>Smarts</td>
+        <td>Dex, acrobat</td>
+        <td>Super speed</td>
+        <td>Super speed</td>
+    </tr>
+</table>
+
+# < colgroup>
+
+**HTML `<colgroup>` 요소**는 표의 열을 묶는 그룹을 정의합니다.
+
+# < data>
+
+**HTML `<data>` 요소**는 주어진 콘텐츠를 기계가 읽을 수 있는 해석본과 연결합니다. 콘텐츠가 시간 혹은 날짜 관련 정보라면 대신 `<time>`요소를 사용하세요.
+
+### 특성
+
+`value`
+
+기계가 읽을 수 있는 형태의 콘텐츠 해석본.
+
+### 예시
+
+```html
+<p>New Products:</p>
+<ul>
+    <li><data value="398">Mini Ketchup</data></li>
+    <li><data value="399">Jumbo Ketchup</data></li>
+    <li><data value="400">Mega Jumbo Ketchup</data></li>
+</ul>
+```
+
+![image-20220914170335568](HTML_요소정리.assets/image-20220914170335568.png)
+
+# < datalist>
+
+**HTML `<datalist>` 요소**는 다른 컨트롤에서 고를 수 있는 가능한, 혹은 추천하는 선택지를 나타내는 [``](https://developer.mozilla.org/ko/docs/Web/HTML/Element/option) 요소 여럿을 담습니다.
+
+```html
+<label for="ice-cream-choice">Choose a flavor:</label>
+<input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
+
+<datalist id="ice-cream-flavors">
+    <option value="Chocolate">
+    <option value="Coconut">
+    <option value="Mint">
+    <option value="Strawberry">
+    <option value="Vanilla">
+</datalist>
+```
+
+![image-20220914170539779](HTML_요소정리.assets/image-20220914170539779.png)
+
+# < dl>
+
+HTML `<dl>`요소는 설명 목록을 나타냅니다. `<dl>`은 `<dt>`로 표기한 용어와 `<dd>`요소로 표기한 설명 그룹의 목록을 감싸서 설명 목록을 생성합니다. 주로 용어사전 구현이나 메타데이터를 표시할 때 사용합니다.
+
+### 예시
+
+```html
+<dl>
+  <dt>Firefox</dt>
+  <dt>Mozilla Firefox</dt>
+  <dt>Fx</dt>
+  <dd>
+    Mozilla 재단과 수 백명의
+    자원봉사자가 개발한 무료
+    오픈소스 크로스 플랫폼
+    그래픽 웹 브라우저.
+  </dd>
+
+  <!-- 다른 용어 및 정의 -->
+</dl>
+```
+
+![image-20220914171039188](HTML_요소정리.assets/image-20220914171039188.png)
+
+# < dt>
+
+HTML `<dt>`요소는 설명 혹은 정의 리스트에서 용어를 나타냅니다. `<dl>`요소 안에 위치해야 합니다. 보통 `<dd>`요소가 뒤따르지만, 여러 개의 <dt>요소를 연속해 배치하면 바로 다음 <dd>요소로 한꺼번에 서술할 수 있습니다.
+
+뒤따르는 <dd> 요소가 <dt>로 지정한 용어의 정의와 기타 관련 글을 제공합니다.
+
+# < dd>
+
+**HTML `<dd>` 요소**는 정의 목록 요소<dl> 에서 앞선 용어 <dt>에 대한 설명, 정의, 또는 값을 제공합니다.
+
+### 예시
+
+```html
+<p>Cryptids of Cornwall:</p>
+
+<dl>
+    <dt>Beast of Bodmin</dt>
+    <dd>A large feline inhabiting Bodmin Moor.</dd>
+
+    <dt>Morgawr</dt>
+    <dd>A sea serpent.</dd>
+
+    <dt>Owlman</dt>
+    <dd>A giant owl-like creature.</dd>
+</dl>
+```
+
+![image-20220914171426697](HTML_요소정리.assets/image-20220914171426697.png)
+
+# < del>
+
+HTML <del> 요소는 문서에서 제거된 텍스트의 범위를 나타냅니다. 문서나 소스 코드의 변경점 추적 등에 사용할 수 있습니다. `<ins>` 요소를 추가된 텍스트의 범위를 나타낼 수 있습니다.
+
+### 예제
+
+```
+<p><del>This text has been deleted</del>,
+here is the rest of the paragraph.</p>
+<del><p>This paragraph has been deleted.</p></del>
+```
+
+![image-20220914171632633](HTML_요소정리.assets/image-20220914171632633.png)
+
+# < details>
+
+HTML <details> 요소는 '열림' 상태일 때만 내부 정보를 보여주는 정보 공개 위젯을 생성합니다. 요약이나 레이블은 <summary>요소를 통해 제공할 수 있습니다.
+
+정보 공개 위젯은 보통 레이블 옆의 작은 삼각형이 돌아가면서 열림/ 닫힘 상태를 나타냅니다. <details>요소의 첫 번째 자식이 <summary>요소라면 <summary>의 콘텐츠를 위젯의 레이블로 사용합니다.
+
+### 예제
+
+```html
+<details>
+    <summary>Details</summary>
+    Something small enough to escape casual notice.
+</details>
+
+```
+
+<details>
+    <summary>Details</summary>
+    Something small enough to escape casual notice.
+</details>
+
+# < dfn>
+
+HTML <dfn> 요소는 현재 맥락이나 문장에서 정의하고 있는 용어를 나타냅니다. <dfn>에서 가장 가까운 <p> <dt>/<dd> 쌍 <section> 조상 요소를 용어 정의로 간주합니다.
+
+### 예제
+
+```html
+<p>A <dfn id="def-validator">validator</dfn> is a program that checks for syntax errors in code or documents.</p>
+```
+
+<p>A <dfn id="def-validator">validator</dfn> is a program that checks for syntax errors in code or documents.</p>
+
+# < em>
+
+HTML <em> 요소는 텍스트의 강세를 나타냅니다. <em> 요소를 중첩하면 더 큰강세를 뜻하게 됩니다.
+
+### 예제
+
+```html
+<p>Get out of bed <em>now</em>!</p>
+
+<p>We <em>had</em> to do something about it.</p>
+
+<p>This is <em>not</em> a drill!</p>
+```
+
+<p>Get out of bed <em>now</em>!</p>
+
+<p>We <em>had</em> to do something about it.</p>
+
+<p>This is <em>not</em> a drill!</p>
+
+# < embed>
+
+HTML `<embed>` 요소는 외부 어플리케이션이나 대화형 컨텐츠와의 통합점을 나타냅니다.
+
+```html
+<embed type="video/webm"
+       src="/media/cc0-videos/flower.mp4"
+       width="250"
+       height="200">
+```
+
+![image-20220915005345943](HTML_요소정리.assets/image-20220915005345943.png)
+
+### 속성
+
+`height`
+
+​	리소스의 표시될 높이 길이를 CSS 필셀로 지정
+
+`src`
+
+​	포함된 리소스의 URL
+
+`type`
+
+​	인스턴스화할 플러그인을 고르기 위해 사용되는 MIME 타입
+
+`width`
+
+​	리소스의 표시될 가로 길이를 CSS 픽셀로 지정
+
+# < i>
+
+HTML <i> 요소는 텍스트에서 어떤 이유로 주위와 구분해야 하는 부분을 나타냅니다. 기술 용어, 외국어 구절, 등장인물의 생각 등을 예시로 들 수 있습니다. 보통 기울임꼴로 표시합니다.
+
+# < kbd>
+
+HTML `<kbd>` 요소는 키보드 입력, 음성 입력 등 임의의 장치를 사용한 사용자의 입력을 나타냅니다. 관례에 따라 사용자 에이전트의 고정폭 글꼴로 표시하지만, HTML 표준은 그런점을 강제하지 않습니다.
+
+```html
+<p>Please press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to re-render an MDN page.</p>
+```
+
+<p>Please press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to re-render an MDN page.</p>
+
+# < mark>
+
+HTML `<mark>` 요소는 현재 맥락에 관련이 깊거나 중요해 표시 또는 하이라이트한 부분을 나타냅니다.
+
+```html
+<p>Several species of <mark>salamander</mark> inhabit the temperate rainforest of the Pacific Northwest.</p>
+
+<p>Most <mark>salamander</mark>s are nocturnal, and hunt for insects, worms, and other small creatures.</p>
+```
+
+<p>Several species of <mark>salamander</mark> inhabit the temperate rainforest of the Pacific Northwest.</p>
+
+<p>Most <mark>salamander</mark>s are nocturnal, and hunt for insects, worms, and other small creatures.</p>
+
+# < table>
+
+**HTML `<table>` 요소**는 행과 열로 이루어진 표를 나타냅니다.
+
+### 접근성 고려사항
+
+표의 목적에 대한 명확하고 상세한 설명을 포함하는 `<caption>` 요소를 제공하여 사용자가 표 콘텐츠를 확인할지, 넘어갈지 결정할 때 도움을 줄 수 있습니다.
+
+`<th>` 요소에 `scope='col'`을 선언함으로써, 해당 칸이 열의 맨위에 위치함을 설명할 수 있습니다. 마찬가지로, `scope='row'`를 추가하면 해당 칸이 행의 맨 앞에 위치함을 설명합니다.
+
+# < tbody>
+
+**HTML** **`<tbody>`** 요소는 표의 여러 행()을 묶어서 표 본문을 구성합니다.
+
+`<tbody>` 요소와 그 사촌인 , 요소는 화면과 프린터에 렌더링 할 때 뿐만 아니라 [접근성](https://developer.mozilla.org/ko/docs/Glossary/Accessibility) 차원에서도 유용한 의미를 표의 행에 부여합니다.
+
+### 사용일람
+
+- `<thead>`요소를 사용한 경우 `<tbody>`요소는 반드시 그 뒤에 위치해야 합니다.
+- `<tbody>`를 사용할 경우, `<table>`의 바로 밑 자식이면서 `<tbody>`에 속하지 않는 `<tr>`요소는 사용할수 없습니다. 모든 비헤더, 비푸터 행은 반드시 `<tbody>`의 자식으로 존재해야 합니다.
+
+### 예제
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Student ID</th>
+      <th>Name</th>
+      <th>Major</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3741255</td>
+      <td>Jones, Martha</td>
+      <td>Computer Science</td>
+    </tr>
+    <tr>
+      <td>3971244</td>
+      <td>Nim, Victor</td>
+      <td>Russian Literature</td>
+    </tr>
+    <tr>
+      <td>4100332</td>
+      <td>Petrov, Alexandra</td>
+      <td>Astrophysics</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+결과
+
+![image-20220914165919225](HTML_요소정리.assets/image-20220914165919225.png)
+
