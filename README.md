@@ -4,9 +4,11 @@
 
 ## [PRIVT_ALGO_ALGO](PRIVT/PRIVT_ALGO.md)
 
-## [HTML_요소정리](WEB/HTML_요소정리.md)
+## [HTML_정리](WEB/HTML_요소정리.md)
 
 ## [Bootstrab_정리](WEB/Bootstrab_정리.md)
+
+## [JS_정리](JS/JS_정리.md)
 
 ## 💕07.04 
 
@@ -137,3 +139,7 @@
 ## 💕09.07
 
 ## [WEB_7](WEB/WEB_7.md)
+
+## 💕09.15
+
+## [JS_01](JS/JS_01.md)
