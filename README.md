@@ -10,6 +10,10 @@
 
 ## [JavaScript_정리](JS/JavaScript_정리.md)
 
+## ❤️‍🔥 Django
+
+## [Django 개발환경 설정](Django/Django개발환경_설정가이드.md)
+
 ## 💕07.04 
 
 ## [Mark Down](MarkDown/markDown_summary.md)
@@ -151,3 +155,8 @@
 ## 💕09.19
 
 ## [JS_03](JS/JS_03.md)
+
+## 💕09.21
+
+## [Django_1](Django/Django_1.md)
+
