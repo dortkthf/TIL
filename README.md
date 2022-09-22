@@ -160,3 +160,6 @@
 
 ## [Django_1](Django/Django_1.md)
 
+## 💕09.22
+
+## [Django_2](Django/Django_2.md)
