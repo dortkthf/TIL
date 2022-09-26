@@ -101,7 +101,7 @@ Create pull request 를 클릭한다.
 
 
 
-2. Forking Workflow(저장소의 서유권이 없는경우)
+2. Forking Workflow(저장소의 소유권이 없는경우)
 
    clone url 로 fork했던 것을 불러온다.
 
