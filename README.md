@@ -171,3 +171,11 @@
 ## 💕09.27
 
 ## [Django_4](Django/Django_4.md)
+
+## 💕09.28
+
+## [Django_5_만들어야됨](Django/Django_5.md)
+
+## 💕09.29
+
+## [Django_6](Django/Django_6.md)
