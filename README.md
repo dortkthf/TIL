@@ -179,3 +179,7 @@
 ## 💕09.29
 
 ## [Django_6](Django/Django_6.md)
+
+## 💕10.04
+
+## [Django_7](Django/Django_7.md)
