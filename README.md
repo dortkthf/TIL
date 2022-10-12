@@ -191,3 +191,7 @@
 ## 💕10.11
 
 ## [Django_9](Django/Django_9.md)
+
+## 💕10.12
+
+## [Django_10](Django/Django_10.md)
