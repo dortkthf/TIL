@@ -1,4 +1,4 @@
-# Django Auth
+# Django Auth  
 
 ### Django Auth 개요
 
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-> auto와 관련된 경로나 키워드들을 Django 내부적으로 accounts라는 이름으로 상요하고 있기 때문에 되도록 accounts로 지정하는 것을 권장
+> auto와 관련된 경로나 키워드들을 Django 내부적으로 accounts라는 이름으로 사용하고 있기 때문에 되도록 accounts로 지정하는 것을 권장
 
 > 다른 이름으로 설정해도 되지만 나중에 추가 설정을 해야 할 일들이 생기게 됨
 

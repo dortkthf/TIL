@@ -27,7 +27,7 @@
 ### 어떻게 로그인 상태를 유지할까?
 
 - 그런데 우리가 로그인을 하고 웹 사이트를 사용할 때 페이지를 이동해도 로그인 '상태' 가 유지됨
-- 서버와 클랑;언트 간 지속적인 상태 유지를 위해 '쿠키와 세션' 이 존재
+- 서버와 클라이언트 간 지속적인 상태 유지를 위해 '쿠키와 세션' 이 존재
 
 ### 쿠키개념
 
@@ -94,6 +94,7 @@
   from . import views
   
   app_name = 'accounts'
+  
   urlpatterns = [
       path('login/', views.login, name='login'),
   ]
@@ -112,6 +113,24 @@
       }
       return render(reqeust, 'accounts/login.html', context)
   ```
+  
+  ```django
+  <!-- accounts/login.html-->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      로그인
+  </h1>
+  <form action='{% url 'accounts:login' %}' method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit'>
+  </form>
+  {% endblock %}
+  ```
+  
+  
 
 ### login()
 
@@ -133,6 +152,8 @@
     - 로그인 URL이 '/accounts/login/' 에서 변경되는 경우 settings.py LOGIN_URL을 변경하여야 함
 
   ```python
+  # accounts/views.py
+  
   from django.contrib.auth import login as auth_login
   
   def login(request):
@@ -207,7 +228,7 @@
 - 어떻게 base 템플릿에서 context 데이터 없이 user 변수를 사용할 수 있는 걸까?
   - settings.py의 context processors 설정의 'django.contrib.auth.context_processors.auth'
 
-### contrxt processors
+### context processors
 
 - 템플릿이 렌더링 될 때 호출 가능한 컨텍스트 데이터 목록
 - 작성된 컨텍스트 데이터는 기본적으로 템플릿에서 사용 가능한 변수로 포함됨
@@ -231,7 +252,7 @@ TEMPLATES = [
 
 ### django.contrib.auth.context_processors.auth
 
-- 템플릿 변서 {{ user }}
+- 템플릿 변수 {{ user }}
   - 클라이언트가 로그인한 경우 User 클래스의 인스턴스
   - 클라이언트가 로그인하지 않은 경우 AnonymousUser 클래스의 인스턴스
 

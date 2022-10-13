@@ -113,3 +113,127 @@ form을 통해서 변수를 받기 위해서는 변수를 보내는쪽과 변수
 변수를 여러개 받을수도있다.
 
 ![image-20220926184139016](Django개발환경_설정가이드.assets/image-20220926184139016.png)
+
+### 회원가입 페이지 생성
+
+### 사전 설정
+
+- accounts app 생성 및 등록
+
+```bash
+$ python manage.py startapp accounts
+```
+
+```python
+# settings.py
+
+INSTALLED_APPS = [
+    'articles',
+    'accounts',
+]
+```
+
+- url 분리 및 매핑
+
+```python
+# urls.py
+
+urlpatterns = [
+    path('accounts/', include('accounts.urls')),
+]
+
+# accounts/urls.py
+
+from django.urls import path
+from . import views
+
+app_name = 'accounts'
+
+urlpatterns = [
+    
+]
+```
+
+### User model 활용
+
+- Django는 기본적인 인증 시스템과 여러가지 필드가 포함된 User Model을 제공, 
+
+  대부분의 개발 환경에서 기본 User Model을 Custom User Model로 대체함
+
+- Custom User Model은 기본 User Model과 동일하게 작동하면서도 필요한 경우 나중에
+
+  맞춤 설정할 수 있기 때문
+
+  - 단! User Model 대체 작업은 프로젝트의 모든 migrations 혹은 첫 migrate를 실행하기 전에 이 작업을 마쳐야 함
+
+- Custom User Model 로 대체하기
+
+  - Django는 현재 프로젝트에서 사용할 User Model을 결정하는
+
+    AUTO_USER_MODEL 설정 값으로 Default User Model을 재정의 할 수 있도록 함
+
+### AUTH_USER_MODEL
+
+- 프로젝트에서 User를 나타낼 때 사용하는 모델
+- 프로젝트가 진행되는 동안 (모델을 만들고 마이그레이션 한 후) 변경할 수 없음
+- 프로젝트 시작 시 설정하기 위한 것이며, 첫번째 마이그레이션 전에 확정 지어야 하는 값!
+
+다음과 같은 기본 값을 가지고 있음
+
+- AUTH_USER_MODEL은 settings.py 에서 보이지 않는데 아래의 값을 입력함으로써
+
+  global_settings.py를 상속받아 재정의할수 있음
+
+```python
+# settings.py
+
+AUTO_USER_MODEL = 'auth.User'
+```
+
+### 대체하기
+
+- AbstractUser를 상속받는 커스텀 User 클래스 작성
+
+- 기존 User 클래스도 AbstracUser를 상속받기 때문에 커스텀 User 클래스도 완전히 같은 모습을 가지게 됨
+
+  ```python
+  # accounts/models.py
+  
+  from django.contrib.auth.models import AbstractUser
+  
+  class User(AbstracUser):
+      pass
+  ```
+
+- settings.py 로 가서 Django 프로젝트에서 User를 나타내는데 사용하는 모델을 방금 생성한 커스텀 User 모델로 지정
+
+  ```python
+  # settings.py
+  
+  AUTH_USER_MODEL = 'accounts.User'
+  ```
+
+- admin.py에 커스텀 User 모델을 등록. 기본 User 모델이 아니라서 등록하지 않으면 admin site에 출력되지 않음
+
+  ```python
+  # accounts/admin.py
+  
+  from django.contrib import admin
+  from django.contrib.auth.admin import UserAdmin
+  from .models import User
+  
+  admin.site.register(User, UserAdmin)
+  ```
+
+### 데이터베이스 초기화(실습용)
+
+- 수업 진행을 위한 데이터베이스 초기화 후 마이그레이션 (프로젝트 중간일 경우)
+- migrations 파일 삭제
+  - migrations 폴더, __ init__.py 는 삭제하지않음
+  - 번호가 붙은 파일만 삭제
+- db.sqlite3 삭제
+- migrations 진행
+  - makemigrations
+  - migrate
+- 이제부터는 auth_user 테이블이 아니라 accounts_user 테이블을 사용하게 되었다.
+
