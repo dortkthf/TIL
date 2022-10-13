@@ -258,7 +258,7 @@ def signup(request):
 ```
 
 ```django
-<!-- accounts/urls.py-->
+<!-- accounts/signup.html-->
 
 {% extends 'base.html' %}
 
@@ -300,10 +300,10 @@ def signup(request):
             return redirect('articles:index')
      else:
          form = UserCreationForm()
-            context = {
-            'form' : form,
-        }
-        return render(request, 'accounts/signup.html', context)
+     context = {
+         'form' : form,
+     }
+     return render(request, 'accounts/signup.html', context)
 ```
 
 ### 회원가입 진행 후 에러 페이지를 확인
@@ -316,7 +316,7 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields = ('username',)
         field_classes = {
-            ;'username' : UsernameField
+            'username' : UsernameField,
         }
 ```
 

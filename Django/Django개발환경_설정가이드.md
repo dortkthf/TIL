@@ -237,3 +237,297 @@ AUTO_USER_MODEL = 'auth.User'
   - migrate
 - 이제부터는 auth_user 테이블이 아니라 accounts_user 테이블을 사용하게 되었다.
 
+# 회원 가입
+
+### UserCreationForm
+
+- 주어진 username과 password로 권한이 없는 새 user를 생성하는 ModelForm
+
+  ```python
+  # accounts/urls.py
+  
+  app_name = 'accounts'
+  
+  urlpatterns = [
+      path('signup/', views.signup, name='signup'),
+  ]
+  
+  # accounts/views.py
+  
+  from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+  
+  def signup(request):
+      if request.method == 'POST':
+          pass
+      else:
+          form = UserCreationForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/signup.html', context)
+  ```
+
+  ```django
+  <!-- accounts/signup.html-->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      회원가입
+  </h1>
+  <form action='{% url 'accounts:signup' %}' method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit'>
+  </form>
+  {% endblock %}
+  ```
+
+- base.html에 회원가입 링크 작성
+
+  ```django
+  <!-- base.html -->
+  
+  <div class='container'>
+      <a href='{% url 'accounts:signup' %}'>Signup</a>
+      <hr>
+      {% block content %}
+      {% endblock %}
+  </div>
+  ```
+
+- 회원가입 로직 작성
+
+  ```python
+  # accounts/views.py
+  
+  def signup(request):
+      if request.method == 'POST':
+          form = UserCreationForm(request.POST)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:index')
+      else:
+          form = UserCreationForm()
+      context = {
+              'form' : form,
+      }
+      return render(request, 'accounts/signup.html', context)	
+  ```
+
+### 회원가입 진행 후 에러 페이지 확인
+
+- 회원가입에 사용하는 UserCreationForm이 우리가 대체한 커스텀 유저 모델이 아닌 기존 유저 모델로 인해 작성된 클래스 이기 때문
+
+  ```python
+  class UserCreationForm(forms.ModelForm)
+  	class Meta:
+          model = User # 이 부분에서 기존 User를 사용하게 되서 에러가 발생
+          fields = ('username',)
+          field_classes = {
+              'username' : UsernameField,
+          }
+
+### UserCreationForm( ) 커스텀하기
+
+- 기존 UserCreationForm을 상속받아 User 모델 재정의
+
+  ```python
+  # accounts/forms.py
+  
+  from django.contrib.auth import get_user_model # 현재 사용하는 user를 불러옴
+  from django.contrib.auth.forms import UserCreationForm
+  
+  class CustomUserCreationForm(UserCreationForm):
+      
+      class Meta(UserCreationForm.Meta): # 뒤에 .Meta 반드시 들어가야함
+          model = get_user_model()
+          
+  # get_user_model()
+  	# 현재 프로젝트엣 활성화된 모델(active user model)을 반환
+      # Django에서는 User 클래스는 커스텀을 통해 변경 가능, 
+      # User를 직접 참조하는 대신 get_user_model()을 사용할 것을 권장
+  ```
+
+- 기존 UserCreationForm을 CustomUserCreationForm() 으로 대체하기
+
+  ```python
+  # accounts/views.py
+  
+  from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+  from .forms import CustomUserCreationForm, CustomUserChangeForm
+  
+  def signup(request):
+      if request.method == 'POST'
+      	form = CustomUserCreationForm(request.POST)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:index')
+      else:
+          form = CustomUserCreationForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/signup.html', context)
+  ```
+
+- **[참고] UserCreationForm의 save 메서드**
+
+  ```python
+  def save(self, commit=True):
+      user = super().save(commit=False)
+      user.set_password(self.cleaned_data['password1'])
+      if commit:
+          user.save()
+      return user # 핵심은 UserCreationForm의 save 메서드는 저장한 user를 반환
+  ```
+
+# 로그인 Login
+
+### 어떻게 로그인 상태를 유지할까?
+
+- 서버와 클라이언트 간 지속적인 상태 유지를 위해 쿠키와 세션이 존재
+
+### Session in Django
+
+- Django는 database-backed sessions 저장 방식을 기본 값으로 사용
+  - session 정보는 Django DB의 django_session 테이블에 저장
+  - 설정을 통해 다른 저장방식으로 변경 가능
+- Django는 특정 session id 를 포함하는 쿠키를 사용해서 각각의 브라우저와 사이트가 연결된 session을 확인함
+
+### AuthenticationForm
+
+- 로그인을 위한 built in form
+
+  - 로그인 하고자 하는 사용자 정보를 입려 받음(username, password)
+  - ModelForm이 아닌 일반 Form을 상속 받고 있으며, request를 첫번째 인자로 취함
+
+  ```python
+  # accounts/urls.py
+  
+  from django.urls import path
+  from . import views
+  
+  app_name = 'accounts'
+  
+  urlpatterns = [
+      path('login/', views.login, name='login')
+  ]
+  
+  # accounts/views.py
+  
+  from django.contrib.auth.forms import AuthenticationForm
+  
+  def login(request):
+      if request.method == 'POST':
+          pass
+      else:
+          form = AuthenticationForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/login.html', context)
+  ```
+
+  ```django
+  <!-- accounts/login.html -->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      로그인
+  </h1>
+  <form action = '{% url 'accounts:login' %}' method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit'>
+  </form>
+  {% endblock %}
+  ```
+
+### login()
+
+- login(request, user, backend=None)
+- 인증된 사용자를 로그인
+
+- 유저의 ID를 세션에 저장하여 세션을 기록
+- HttpRequest 객체와 User 객체가 필요
+  - 유저 정보는 반드시 인증된 유저 정보여야 함
+    - authenticate() 함수를 활용한 인증
+    - AuthenticationForm 을 활용한 is_valid
+
+### 로그인 로직 작성
+
+- 일반적인 ModelForm 기반의 Create 로직과 동일하지만 ModelForm이 아닌 Form으로써 필수 인자 구성이 다름
+
+- DB에 저장하는 것 대신 세션에 유저를 기록하는 함수를 호출함
+
+  - View 함수와 이름이 동일하여 변경하여 호출
+  - 로그인 URL이 'accounts/login/' 에서 변경되는 경우 settings.py LOGIN_URL을 변경 해야함
+
+  ```python
+  # accounts/views.py
+  
+  from django.contrib.auth import login as auth_login
+  
+  def login(request):
+      if request.method == 'POST':
+          form = AuthenticationForm(request, data=request.POST)
+          if form.is_valid():
+              auth_login(request, form.get_user())
+              return redirect('articles:index')
+      else:
+          form = AuthenticationForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/login.html', context)
+  ```
+
+### get_user()
+
+- AuthenticationForm의 인스턴스 메서드
+- 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
+
+### base.html 에 로그인 링크 추가
+
+```django
+<!-- base.html -->
+<body>
+    <div class='container'>
+        <a href='{% url 'accounts:login' %}'>Login</a>
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+```
+
+### base.html에 현재 로그인 되어있는 유저 정보 출력하기
+
+```django
+<!-- base.html -->
+<body>
+    <div class='container'>
+        <h3>
+            Hello, {{ request.user }}
+        </h3>
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+```
+
+- base 템플릿에서 context 없이 user 변수를 사용할수 있는 이유?
+  - 기본 settings.py 의 context processors 설정의 django.contrib.auth.context_processors.auth 의 기본 설정에 user가 포함되어 있기때문
+  - 템플릿 변수 {{ user }}
+    - 클라이언트에서 로그인한 경우 User 클래스의 인스턴스
+    - 클라이언트가 로그인 하지 않은 경우 AnonymousUser 클래스의 인스턴스
+
+# Logout
+
+### logout()
+
+- logout(request)
+- 요청 유저에 대한 세션 정보를 삭제함
