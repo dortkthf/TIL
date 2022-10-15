@@ -292,7 +292,7 @@ def logout(request):
 ```django
 <!-- base.html -- >
 
-body>
+<body>
     <div class="container">
         <h3>Hello, {{ user }}</h3>
         <a href="{% url 'accounts:login' %}">Login</a>
@@ -418,7 +418,7 @@ def login(request):
 - 로그인 상태에서만 글을 작성/수정/삭제 할 수 있도록 변경
 
 ```python
-from django.contrib.auth.decorator import login_required
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def create(request):

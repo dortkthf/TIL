@@ -530,4 +530,214 @@ AUTO_USER_MODEL = 'auth.User'
 ### logout()
 
 - logout(request)
-- 요청 유저에 대한 세션 정보를 삭제함
+- 요청 유저에 대한 세션 정보를 삭제함 
+  - DB에서 session data 삭제
+- HttpRequest 객체를 인자로 받고 반환값 없음
+
+- 사용자가 로그인하지 않은 경우 오류를 발생시키지 않음
+
+  ```python
+  # accounts/urls.py
+  
+  from django.urls import path
+  from . import views
+  
+  app_name = 'accounts'
+  
+  urlpatterns = [
+      path('login/', views.login, name='login'),
+      path('login/', views.logout, name='logout'),
+  ]
+  
+  # accounts/views.py
+  
+  from django.contrib.auth import logout as auth_logout
+  
+  def logout(request):
+      auth_logout(request)
+      return redirect('articles:index')
+  ```
+
+  ```django
+  <!-- base.html -- >
+  
+  <body>
+  	<div class='container'>
+          <h3>Hello. {{ user }}</h3>
+          <form action='{% url 'accounts:login' %}' method='POST'>
+              {% csrf_token %}
+              <input type='submit' value='Logout'>
+          </form>
+  		<a href='{% url 'accounts:logout' %}'>Logout</a>
+          <hr>
+          {% block content %}
+          {% endblock %}
+  
+      </div>
+  </body>
+  ```
+
+# Limiting access to logged-in users
+
+- 로그인 사용자에 대한 접근 제한하기
+- 접근을 제한하는 2가지 방법
+  - is_authenticated attribute를 활용한 조건문
+  - login_required decorators를 활용한 view 제한
+
+### is_authenticated
+
+- User model의 속성중 하나
+
+- 사용자가 인증 되었는지 여부를 알 수 있는 방법
+
+- 모든 User 인스턴스에 대해 항상 True인 읽기 전용 속성
+
+  - AnonymousUser 에 대해서는 항상 False
+
+- 일반적으로 request.user에서 이 속성을 사용 (request.user.is_authenticated)
+
+- 권한(permission)과 관련이 없고, 사용자가 활성화 (active)이거나 유효한 세션(valid session)을 가지고 있는지도 확인하지 않음
+
+  **is_authenticated 내부코드**
+
+  ```python
+  class AbstractBaseUser(models.Model):
+      ...
+      def is_authenticated(self):
+  		"""
+          Always return True. This is a way to tell if the user has been
+          authenticated in templates.
+          """
+          return True
+  ```
+
+  **is_authenticated 적용코드**
+
+  ```django
+  <!-- base.html -->
+  
+  {% if request.user.is_authenticated %}
+  	<h3>hello, {{ request.user }}</h3>
+      <a href='{% url 'accounts:logout' %}'>Logout</a>
+      <a href='{% url 'accounts:update' %}'>회원정보수정</a>
+      <!--
+      <form action='{% url 'accounts:delete' %}' method='POST'>
+          {% csrf_token %}
+          <input type='submit' value='회원탈퇴'>
+      </form>
+      -->
+      <a href='{% url 'accounts:delete' %}'>회원탈퇴</a>
+  {% else %}
+      <!--
+      <form action='{% url 'accounts:login' %}' method='POST'>
+          {% csrf_token %}
+          <input type='submit' value='login'> 
+      </form>
+      -->
+      <a href='{% url 'accounts:login' %}'>Login</a>
+      <a href='{% url 'accounts:signup' %}'>Signup</a>
+  {% endif %}
+  ```
+
+  **is_authnticated 적용하기**
+
+  인증된 사용자만 게시글 작성 링크를 볼 수 있도록 처리하기
+
+  - URL을 직접입력하면 게시글 작성 페이지로 갈 수 있음
+  - View에서의 처리도 반드시 필요함
+
+  ```django
+  <!-- articles/index.html-->
+  {% extends 'base.html' %}
+  
+  {% block content %}
+  	<h1>
+          Articles
+      </h1>
+      {% if request.user.is_authenticated %}
+          <a href='{% url 'articles:create' %}'>CREATE</a>
+      {% else %}
+          <a href='{% url 'accounts:login' %}'>새 글을 작성하려면 로그인하세요</a>
+      {% endif %}
+  {% endblock %}
+  ```
+
+  **is_authenticated 인증된 사용자라면 로그인 로직을 수행할 수 없도록 처리**
+
+  ```python
+  # accounts/views.py
+  
+  def login(request):
+      if request.user.is_authenticated:
+          return redirect('articles:index')
+  ```
+
+### login_required
+
+- login_required decorators
+
+  - 사용자가 로그인 되어 있으면 정상적으로 view 함수를 실행
+  - 로그인 하지 않은 사용자의 경우 settings.py 의 LOGIN_URL 문자열 주소로 redirect
+    - LOGIN_URL의 기본값은 /accounts/login
+
+- 로그인 상태에서만 글을 작성/수정/삭제 할 수 있도록 변경
+
+  ```python
+  from django.contrib.auth.decorator import login_required
+  
+  @login_required
+  def create(request):
+      pass
+  
+  @login_required
+  def delete(request, pk)
+  	pass
+  
+  @login_required
+  def update(request, pk)
+  	pass
+  ```
+
+### login_required 적용확인하기
+
+- /articles/create/ 로 브라우저에 직접 요청
+- 로그인 페이지로 리다이렉트 및 URL 확인
+  - 인증 성공 시 사용자가 redirect되어야 하는 경로는 'next' 라는 쿼리 문자열 ㅐㅁ개 변수에 저장됨
+  - 예시) /accounts/login/?next=/articles/create/
+
+### 'next' query string parameter 대응
+
+```python
+# accounts/views.py
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('articles:index')
+    
+    if request.method == 'POST'
+    	form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+    		auth_login(request, form.get_user())
+            return redirect(request.GET.get('next') or 'articles:index' )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
