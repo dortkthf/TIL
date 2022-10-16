@@ -687,9 +687,7 @@ urlpatterns = [
 
 #### User model 활용
 
-- Django는 기본적인 인증 시스템과 여러가지 필드가 포함된 User Model을 제공,  대부분의 개발 환경에서 
-
-  기본 User Model을 Custom User Model로 대체함
+- Django는 기본적인 인증 시스템과 여러가지 필드가 포함된 User Model을 제공,  대부분의 개발 환경에서 기본 User Model을 Custom User Model로 대체함
 
 - Custom User Model은 기본 User Model과 동일하게 작동하면서도 필요한 경우 나중에 맞춤 설정할 수 있기 때문
 
@@ -718,7 +716,7 @@ urlpatterns = [
 ```python
 # settings.py
 
-AUTO_USER_MODEL = 'auth.User' 
+AUTH_USER_MODEL = 'auth.User' 
 ```
 
 
@@ -943,10 +941,14 @@ AUTO_USER_MODEL = 'auth.User'
   # accounts/views.py
   
   from django.contrib.auth.forms import AuthenticationForm
+  from django.contrib.auth import login as auth_login
   
   def login(request):
       if request.method == 'POST':
-          pass
+          form = AuthenticationForm(request, data=request.POST)
+          if form.is_valid():
+              auth_login(request, form.get_user())
+              return redirect('articles:index')
       else:
           form = AuthenticationForm()
       context = {
@@ -954,7 +956,7 @@ AUTO_USER_MODEL = 'auth.User'
       }
       return render(request, 'accounts/login.html', context)
   ```
-
+  
   ```django
   <!-- accounts/login.html -->
   
@@ -975,16 +977,11 @@ AUTO_USER_MODEL = 'auth.User'
 
 - login(request, user, backend=None)
 - 인증된 사용자를 로그인
-
 - 유저의 ID를 세션에 저장하여 세션을 기록
 - HttpRequest 객체와 User 객체가 필요
   - 유저 정보는 반드시 인증된 유저 정보여야 함
     - authenticate() 함수를 활용한 인증
     - AuthenticationForm 을 활용한 is_valid
-
-
-
-#### 로그인 로직 작성
 
 - 일반적인 ModelForm 기반의 Create 로직과 동일하지만 ModelForm이 아닌 Form으로써 필수 인자 구성이 다름
 
@@ -993,27 +990,8 @@ AUTO_USER_MODEL = 'auth.User'
   - View 함수와 이름이 동일하여 변경하여 호출
   - 로그인 URL의 기본값은 'accounts/login/' 이지만 변경이 필요한 경우 settings.py LOGIN_URL을 변경 해야함
 
-  ```python
-  # accounts/views.py
-  
-  from django.contrib.auth import login as auth_login
-  from django.contrib.auth.forms import AuthenticationForm
-  
-  def login(request):
-      if request.method == 'POST':
-          form = AuthenticationForm(request, data=request.POST)
-          if form.is_valid():
-              auth_login(request, form.get_user())
-              return redirect('articles:index')
-      else:
-          form = AuthenticationForm()
-      context = {
-          'form' : form,
-      }
-      return render(request, 'accounts/login.html', context)
-  ```
 
-get_user()
+**get_user()**
 
 - AuthenticationForm의 인스턴스 메서드
 - 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
@@ -1108,6 +1086,184 @@ get_user()
   
       </div>
   </body>
+  ```
+
+
+
+#### 회원정보수정(update) / UserChangeForm  _  ModelForm
+
+- 사용자의 정보 및 권한을 변경하기 위해 admin 인터페이스에서 사용되는 ModelForm
+- UserChangeForm 또한 ModelForm이기 때문에 instance 인자로 기존 user 데이터 정보를 받는 구조 또한 동일함
+
+- 이전에 CustomUserChangeForm으로 확장했기 때문에 CustomUserChangeForm을 사용하기
+
+- UserChangeForm 역시 ModelForm으로 구성되어 있어 User 모델 정보를 변경하여 활용
+
+
+
+
+#### CustomUserChangeForm fields 재정의
+
+- UserChangeForm 은 실제 관리자 화면에서 활용 중인 form으로 세부 필드들이 모두 노출된다
+
+- 직접 fields를 정의하여 원하는 형식으로 활용 가능함
+
+```python
+# accounts/forms.py
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserChangeForm
+
+class CustomUserChangeForm(UserChangeForm):
+    
+    class Meta(UserChangeForm.Meta):
+        model = get_user_model()
+        fields = ('email', 'first_name', 'last_name',)
+
+# accounts/ursl.py
+
+app_name = 'accounts'
+urlpatterns = [
+    ...,
+    path('update/', views.update, name='update'),
+]
+
+# accounts/views.py
+
+from .forms import CustomUserChangeForm
+
+def update(request):
+   if request.method == 'POST':
+   		form = CustomUserChangeForm(request.POST, instance=request.user)
+   		if form.is_valid():
+   			form.save()
+   			return redirect('articles:index')
+   else:
+   		form = CustomUserChangeForm(instance=request.user)
+   context = {
+   		'form' : form
+   }
+   return render(request, 'accounts/update.html', context)
+```
+
+```html
+<!-- accounts/update.html -->
+
+{% extends 'base.html' %}
+{% block content %}
+<h1>
+    회원정보 수정
+</h1>
+<form action='{% url 'accounts:update' %}' method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit'>
+</form>
+
+<!-- base.html -->
+
+<div class='container'>
+    <a href='{% url 'accounts:signup' %}'>Signup</a>
+    <a href='{% url 'accounts:update' %}'>회원정보 수정</a>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</div>        
+```
+
+
+
+#### User model 상속구조
+
+**AbstractUser** => **User** => **UserChangeForm** 으로 상속되고있다.
+
+
+
+#### 비밀번호변경(change_password) / PasswordChangeForm _ Form
+
+- 사용자가 비밀번호를 변경할 수 있도록 하는 Form
+- 이전 비밀번호를 입력하여 비밀번호를 변경할 수 있도록 함
+- 이전 비밀번호를 입력하지 않고 비밀번호를 설정할 수 있는 SetPasswordForm을 상속받는 서브 클래스
+- 비밀번호 변경 후 로그인 상태가 지속되지 못하는 문제 발생
+- 이를 해결하기 위해 암호 변경 시 세션 무효화 방지하기
+
+  - 비밀번호가 변경되면 기존 세션과의 회원 인증 정보가 일치하지 않게 되서 로그인 상태가 유지되지 못함
+- **update_session_auth_hash(request, user)**
+
+  - 현재 요청(current request)과 새 session data가 업데이트 된 사용자 객체를 가져오고 session data를 적절하게 업데이트 해줌
+  - 암호가 변경되어도 로그아웃 되지 않도록 새로운 password의 session data로 session을 업데이트
+
+
+
+```python
+# accounts/urls.py
+
+app_name = 'accounts'
+
+urlpatterns = [
+    ...,
+    path('password/', views.change_password, name='change_password'),
+]
+
+# accounts/views.py
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
+def change_password(request):
+    if request.method == 'POST'
+    	form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user) # 이부분을 통해 세션유지
+            return redirect('articles:index')
+    else:
+    	form = PasswordChangeForm(request.user)
+    context = {
+        'form' : form,
+    }
+    return render(request, 'accounts/change_password.html', context)
+```
+
+```html
+<!-- accounts/change_password.html-->
+
+{% extends 'base.html' %}
+{% block content %}
+<h1>
+    비밀번호 변경
+</h1>
+<form action='{% url 'accounts:change_password' %}' method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit'>
+</form>
+{% endblock %}
+```
+
+
+
+#### 탈퇴 delete
+
+- 탈퇴와 동시에 해당 유저의 세션 정보도 함께 지우고 싶을 경우
+
+- 탈퇴(1) 후 로그아웃(2) 의 순서를 반드시 지켜야됨
+
+- 먼저 로그아웃을 해버리면 해당 요청 객체의 정보가 없어지기 때문에 탈퇴에 필요한 정보 또한 없어지기 떄문
+
+  ```python
+  # accounts/urls.py
+  
+  urlpatterns = [
+      path('delete/', views.delete, name='delete')
+  ]
+  
+  # accounts/views.py
+  
+  def delete(request):
+      request.user.delete() # 이 순서가 중요   1.삭제
+      auth_logout(request) # 2. 로그아웃
+      return redirect('articles:index')
   ```
 
 
@@ -1208,11 +1364,11 @@ get_user()
       else:
           return redirect('accounts:login')
   ```
+
   
-  
-  
+
   **is_authenticated 인증된 사용자라면 로그인 로직을 수행할 수 없도록 처리**
-  
+
   ```python
   # accounts/views.py
   
@@ -1303,224 +1459,6 @@ def login(request):
 </form>
 {% endblock %}
 ```
-
-
-
-#### 회원정보수정(update) / UserChangeForm  _  ModelForm
-
-- 사용자의 정보 및 권한을 변경하기 위해 admin 인터페이스에서 사용되는 ModelForm
-- UserChangeForm 또한 ModelForm이기 때문에 instance 인자로 기존 user 데이터 정보를 받는 구조 또한 동일함
-
-- 이전에 CustomUserChangeForm으로 확장했기 때문에 CustomUserChangeForm을 사용하기
-
-- UserChangeForm 역시 ModelForm으로 구성되어 있어 User 모델 정보를 변경하여 활용
-
-  ```python
-  # accounts/forms.py
-  
-  from django.contrib.auth import get_user_model
-  from django.contrib.auth.forms import UserChangeForm
-  
-  class CustomUserChangeForm(UserChangeForm):
-      
-      class Meta(UserChangeForm.Meta):
-          model = get_user_model()
-          
-  # accounts/ursl.py
-  
-  app_name = 'accounts'
-  urlpatterns = [
-      ...,
-      path('update/', views.update, name='update'),
-  ]
-  
-  # accounts/views.py
-  
-  def update(request):
-      if request.method == 'POST'
-          pass
-      else:
-          form = CustomUserChangeForm(instance=request.user)
-      context = {
-          'form' : form
-      }
-      return render(request, 'accounts/update.html', context)
-  ```
-
-  ```html
-  <!-- accounts/update.html -->
-  
-  {% extends 'base.html' %}
-  {% block content %}
-  <h1>
-      회원정보 수정
-  </h1>
-  <form action='{% url 'accounts:update' %}' method='POST'>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type='submit'>
-  </form>
-  
-  <!-- base.html -->
-  
-  <div class='container'>
-      <a href='{% url 'accounts:signup' %}'>Signup</a>
-      <a href='{% url 'accounts:update' %}'>회원정보 수정</a>
-      <hr>
-      {% block content %}
-      {% endblock %}
-  </div>
-  ```
-
-
-
-#### CustomUserChangeForm fields 재정의
-
-- UserChangeForm 은 실제 관리자 화면에서 활용 중인 form으로 세부 필드들이 모두 노출된다
-
-- 직접 fields를 정의하여 원하는 형식으로 활용 가능함
-
-  ```python
-  # accounts/forms.py
-  
-  class CustomUserChangeForm(UserChangeForm):
-      
-      class Meta(UserChangeForm.Meta):
-          model = get_user_model()
-          fields = ('email', 'first_name', 'last_name',)
-  ```
-
-
-
-#### 회원정보 수정 로직 작성
-
-- 작성 후 실제 회원정보가 수정되었는지 확인
-
-  ```python
-  # accounts/views.py
-  
-  def update(request):
-     if request.method == 'POST':
-     		form = CustomUserChangeForm(request.POST, instance=request.user)
-     		if form.is_valid():
-     			form.save()
-     			return redirect('articles:index')
-     else:
-     		form = CustomUserChangeForm(instance=request.user)
-     context = {
-     		'form' : form
-     }
-     return render(request, 'accounts/update.html', context)
-  ```
-
-
-
-#### User model 상속구조
-
-**AbstractUser** => **User** => **UserChangeForm** 으로 상속되고있다.
-
-
-
-#### 비밀번호변경(change_password) / PasswordChangeForm _ Form
-
-- 사용자가 비밀번호를 변경할 수 있도록 하는 Form
-
-- 이전 비밀번호를 입력하여 비밀번호를 변경할 수 있도록 함
-
-- 이전 비밀번호를 입력하지 않고 비밀번호를 설정할 수 있는 SetPasswordForm을 상속받는 서브 클래스
-
-  ```python
-  # accounts/urls.py
-  
-  app_name = 'accounts'
-  
-  urlpatterns = [
-      ...,
-      path('password/', views.change_password, name='change_password'),
-  ]
-  
-  # accounts/views.py
-  
-  from django.contrib.auth.forms import PasswordChangeForm
-  
-  def change_password(request):
-      if request.method == 'POST'
-      	form = PasswordChangeForm(request.user, request.POST)
-          if form.is_valid():
-              form.save()
-              return redirect ('articles:index')
-      else:
-          form = PasswordChangeForm(request.user)
-      context = {
-          'form' : form,
-      }
-      return render(request, 'accounts/change_password.html', context)
-  ```
-  
-  ```html
-  <!-- accounts/change_password.html-->
-  
-  {% extends 'base.html' %}
-  {% block content %}
-  <h1>
-      비밀번호 변경
-  </h1>
-  <form action='{% url 'accounts:change_password' %}' method='POST'>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type='submit'>
-  </form>
-  {% endblock %}
-  ```
-
-- 비밀번호 변경 후 로그인 상태가 지속되지 못하는 문제 발생
-
-- 이를 해결하기 위해 암호 변경 시 세션 무효화 방지하기
-
-  - 비밀번호가 변경되면 기존 세션과의 회원 인증 정보가 일치하지 않게 되서 로그인 상태가 유지되지 못함
-
-- **update_session_auth_hash(request, user)**
-
-  - 현재 요청(current request)과 새 session data가 업데이트 된 사용자 객체를 가져오고 session data를 적절하게 업데이트 해줌
-  - 암호가 변경되어도 로그아웃 되지 않도록 새로운 password의 session data로 session을 업데이트
-
-  ```python
-  # accounts/views.py
-  
-  from django.contrib.auth import update_session_auth_hash
-  
-  def change_password(request):
-      if request.method == 'POST'
-      	form = PasswordChangeForm(request.user, request.POST)
-          if form.is_valid():
-              form.save()
-              update_session_auth_hash(request, form.user) # 이부분을 통해 세션유지
-              return redirect('articles:index')
-      else:
-      	form = PasswordChangeForm(request.user)
-      context = {
-          'form' : form,
-      }
-      return render(request, 'accounts/change_password.html', context)
-  ```
-
-
-
-#### 탈퇴 delete
-
-- 탈퇴와 동시에 해당 유저의 세션 정보도 함께 지우고 싶을 경우
-
-- 탈퇴(1) 후 로그아웃(2) 의 순서를 반드시 지켜야됨
-
-- 먼저 로그아웃을 해버리면 해당 요청 객체의 정보가 없어지기 때문에 탈퇴에 필요한 정보 또한 없어지기 떄문
-
-  ```python
-  # accounts/views.py
-  
-  def delete(request):
-      request.user.delete() # 이 순서가 중요   1.삭제
-      auth_logout(request) # 2. 로그아웃
-  ```
 
 
 
