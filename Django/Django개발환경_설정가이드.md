@@ -42,6 +42,22 @@ $ pip install django==3.2.13
 
 
 
+#### [참고] pip install 패키지들을 requirements.txt 파일로 저장
+
+```bash
+(vnev)
+$ pip freeze > requirements.txt
+```
+
+#### requirements.txt 로 pip install 하기
+
+```bash
+(venv)
+$ pip install -r requirements.txt
+```
+
+
+
 #### **장고에서 기본 프로젝트 생성**
 
 ```bash
