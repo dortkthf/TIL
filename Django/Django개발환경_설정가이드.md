@@ -1,122 +1,635 @@
 # Django 개발 환경 설정 가이드
 
-### 1. git bash창을 아무위치에서 열고나서 cd ~를 입력해서 ~ 홈폴더로 간다
 
-![image-20220921142413763](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921142413763.png)
 
-### 2. ~ 홈화면에서 서버로 만들 폴더를 mkdir 명령어를 통해 만든다.
+#### **Django로 개발을 진행할 폴더를 생성한다.**
 
-![image-20220921142558059](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921142558059.png)
+```bash
+$ mkdir project1
+```
 
-### 3. cd명령어를 통해서 해당 서버 폴더로 이동한다.
 
-![image-20220921142725467](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921142725467.png)
 
-### 4. $ python -m venv [일반적으로는 이름-venv 로 생성함] 명령어를통해 파이썬 모듈인 venv를 실행시켜 [가상공간폴더]를 생성한다.![image-20220921143534737](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921143534737.png)
+#### **위에서 만든 폴더에 가상환경 생성**
 
-### 5. $ source [가상 공간 폴더명]/Scripts/activate 명령어로 가상서버를 실행시킨다.
+```bash
+$ python -m venv venv 			
+```
 
-- **그냥 activate파일만 실행 시키면 되므로 만약 최초의 서버 폴더안에 있었다면**
+- $ python -m venv [생성할 가상환경이름]
 
-  즉 **~/test 의 위치에 내가 있다면**
 
-  **sourve test-venv/Scripts/activate** 로 입력해서 가상공간을 실행시킨다.
 
-  **만약 생성된 가상공간폴더안에 위치해 있다면**
+#### **가상환경 실행**
 
-  즉 **~/test/test-venv/ 의 위치에 내가 있다면**
+```bash
+$ source venv/Scripts/activate
+or
+$ . venv/Scripts/activate
+```
 
-  **source Scripts/activate** 를 입력해서 가상 공간을 형성한다.
+- $ source [가상 공간 폴더명]/Scripts/activate 로 가상환경을 실행시킨다.
+- 가상환경 폴더내의 activate 파일만 실행 시키면 되므로 만약 현재의 위치가 가상환경 폴더 안이라면 `$ source Scripts/activate` 로 실행 시킨다.
 
-![image-20220921144750525](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921144750525.png)
 
- ### 6. 해당 가상공간폴더에 가장 안전한 버전의 django 3.2.13버전을 설치한다.
 
-- **pip install django==3.2.13 명령어를 통해 설치한다.**
+#### **가상환경에서 LTS버전인 django 3.2.13 버전을 설치**
 
-![image-20220921145231610](C:\Users\이준엽\Desktop\DEV\TIL\Django\Django 개발 환경 설정 가이드.assets\image-20220921145231610.png)
+```bash
+(venv)
+$ pip install django==3.2.13
+```
 
-### 7. django-admin startproject [프로젝트 이름] . 을 통해 장고 기본 프로젝트를 생성합니다.
 
-- 반드시 . 마침표를 입력해서 현재 폴더에 프로젝트를 생성하기로 합니다.
 
-![image-20220921161745179](Django 개발 환경 설정 가이드.assets/image-20220921161745179.png)
+#### **장고에서 기본 프로젝트 생성**
 
-### 8. 해당 프로젝트에서 사용할 app을 아래 명령어를 통해 생성합니다.
+```bash
+(venv)
+$ django-admin startproject first .
+```
 
-![image-20220924212049724](Django개발환경_설정가이드.assets/image-20220924212049724.png)
+- 마침표를 입력하면 현재 폴더에 프로젝트를 생성한다.
+- 마침표를 입력하지 않으면 현재 폴더에 새로운 폴더를 만들고 그폴더 내에서 프로젝트를 생성한다.
+- `$ django-admin startproject [생성할 프로젝트이름] .` 으로 기본 프로젝트 생성
 
-### 9. 프로젝트 폴더안에 settings.py 에 ISTALLED_APPS 에 생성한 app을 추가해줍니다.
 
-![image-20220924212250687](Django개발환경_설정가이드.assets/image-20220924212250687.png)
 
-### 10. 프로젝트 폴더안의 urls.py 안에 from drink import views 를 추가시키고 urlpatterns 안에 views에서 실행할 함수를 views.[함수이름] 으로 추가해줍니다.
+#### **프로젝트에서 사용할 app 생성**
 
-![image-20220924212532167](Django개발환경_설정가이드.assets/image-20220924212532167.png)
+```bash
+(venv)
+$ python manage.py startapp drink
+```
 
-### 11. 이후 drink 폴더의 views.py 로 돌아가서 drink라는 함수를 생성해줍니다.
+- `$ python manage.py startapp [생성할 app이름]` 으로 앱을 생성
 
-![image-20220924212739259](Django개발환경_설정가이드.assets/image-20220924212739259.png)
 
-### 12. 이후 drink 폴더 내에 templates 라는 폴더를 생성한 이후에 templates 폴더 안에 drink.html 이라는 파일을 생성해줍니다.
 
-![image-20220924212903929](Django개발환경_설정가이드.assets/image-20220924212903929.png)
+#### **프로젝트 폴더의 settings.py 의  INSTALLED_APPS 에 app 등록**
 
-### 13. python manage.py runserver 명령어를 통해 서버를 실행시킵니다.
+```python
+# project/settings.py
 
-![image-20220921161949537](Django 개발 환경 설정 가이드.assets/image-20220921161949537.png)
+INSTALLED_APPS = [
+    'drink',
+    ...,
+]
+```
 
-- 기본적으로 웹브라우저에 localhost:8000 을 입력시키면 내가 실행시킨 서버의 django가 나온다.
 
-### 14. 서버를 종료할때
 
-**<kbd>Ctrl</kbd> + <kbd>c</kbd>** 를 입력해서 나가고 **diactivate**를 입력해서 서버를 종료시킨다.야
+#### **프로젝트 폴더의 urls.py에 app으로 연결해주는 url작성**
 
-![image-20220921153448478](Django 개발 환경 설정 가이드.assets/image-20220921153448478.png)
+```python
+# project/urls.py
 
-- **<kbd>Ctrl</kbd> + <kbd>c</kbd>** 로 나가게되면 해당 서버는 들어가지지 않는다.
+from django.urls import path, include # include를 추가시켜서 app의 urls.py로 연결시켜준다.
 
-### url을 통한 변수받기
+urlpatterns = [
+    path('drink/', include('drink.urls')),
+]
+```
 
-url을 통해서 값을 받기 위해서는 프로젝트폴더 내에 urls.py에서 path의 주소창 안에 <>를 표시하고 그 안에 정의할 수나 문자를 넣는다.
 
-![image-20220926181731695](Django개발환경_설정가이드.assets/image-20220926181731695.png)
 
-이후에 프로젝트앱 폴더내의 views.py에서 함수를 정의할때에 request옆에 처음에 정의했던 number나 혹은 number1 number2 를 입력해서 받고 이를 해당 함수 context안에 넣는다.
+#### **drink 앱 폴더내에 urls.py를 생성하고 urls.py에서 app_name과 urlpatterns를 작성**
 
-![image-20220926181808251](Django개발환경_설정가이드.assets/image-20220926181808251.png)
+```python
+# drink/urls.py
 
-### form을 통한 변수받기
+from django.urls import path
+from . import views
 
-변수를 보내는 url과 받는 url 모두 프로젝트본체 폴더 안에 urls.py 내에 기록되어야한다.
+app_name = 'drink'
 
-![image-20220926182120757](Django개발환경_설정가이드.assets/image-20220926182120757.png)
+urlpatterns = [
+    path('',views.index, name='index')
+]
+```
 
-form을 통해서 변수를 받기 위해서는 변수를 보내는쪽과 변수를 받는쪽 총 2개의 페이지가 있어야한다.  
 
-변수를 보내는 쪽의 html에서 form을 정의하고 form 태그 안에서 action 값을 변수를 받을 url을 입력한다. 
 
-이후 변수로 보낼 input 태그 안에 name이라는 속성을 통해 변수이름을 설정해서 보낸다.
+#### **drink앱 폴더의 views.py에 index함수 생성**
 
-![image-20220926181711650](Django개발환경_설정가이드.assets/image-20220926181711650.png)
+```python
+# drink/views.py
 
-변수를 보내는 쪽의 함수정의는 딱히 할게없다.
+def index(request):
+    context = {
+        
+    }
+    return render(request, 'drink/index.html', context
+```
 
-![image-20220926181950797](Django개발환경_설정가이드.assets/image-20220926181950797.png)
+**drink앱 폴더 내에 templates/drink 폴더 생성 **
 
-변수를 받는쪽의 함수정의에서는 request.GET.get('name')으로 변수를 받아들인다.
 
-변수를 보내는쪽의 form태그에서 name속성으로 정의했던 이름이 변수의 이름이다.
 
-![image-20220926184018721](Django개발환경_설정가이드.assets/image-20220926184018721.png)
+#### **프로젝트 settings.py 에 TEMPLATES 의 DIRS 경로를 BASE_DIR/'templates' 로 작성**
 
-변수를 여러개 받을수도있다.
+```python
+# project/settings.py
 
-![image-20220926184139016](Django개발환경_설정가이드.assets/image-20220926184139016.png)
+TEMPLATES = [
+    {
+        'DIRS':[BASE_DIR / 'templates'],
+    }
+]
+```
 
-### 회원가입 페이지 생성
 
-### 사전 설정
+
+#### **서버 실행**
+
+```bash
+(venv)
+$ python manage.py runserver
+```
+
+- 웹 브라우저에 localhost:8000 or http:127.0.0.1:8000 을 입력하면 내가 실행한 서버가 나온다.
+
+
+
+#### **서버 종료**
+
+**<kbd>Ctrl</kbd> + <kbd>c</kbd>** 를 입력해서 나가고 **diactivate**를 입력해서 서버를 종료시킨다.
+
+```bash
+(venv)
+$ deactivate
+
+///
+
+(venv)
+$
+```
+
+VS코드에서 서버를 실행하거나 가상환경을 켰을때에 VS코드를 종료하면 자동으로 서버가 닫히고 가상환경이 꺼진다.
+
+
+
+#### base.html 설정하기
+
+```python
+# settings.py 
+
+TEMPLATES = [
+    ...,
+    'DIRS' : [BASE_DIR/'templates'] # 이렇게 설정
+]
+
+# 이후에 manage.py 가있는 폴더 내에서 templates 폴더를 생성하고 그안에 base.html 생성
+```
+
+```django
+<!-- templates/base.html -->
+{% load django_bootstrap5 %}
+
+css_cdn or {% bootstrap_css %}
+...
+{% block content %}
+{% endblock %}
+javascript_cdn or {% bootstrap_javascript %}
+...
+```
+
+
+
+#### **url을 통한 변수받기**
+
+변수를 받을 앱폴더에  urls.py에서 path의 주소창 안에 <>를 표시하고 그 안에 정의할 수나 문자를 넣는다.
+
+```python
+# drink/urls.py
+
+urlpatterns = [
+    path('drink/<int:pk>', views.drink),
+]
+```
+
+ 이후 앱폴더내의 views.py에서 함수를 정의할때에 request 옆에 새로운 변수 pk를 입력받는다.
+
+```python
+# drink/views.py
+
+def drink(request, pk):
+    context = {
+        'pk' : pk,
+    }
+    return render(request, 'drink/drink.html', context)
+```
+
+
+
+#### **form 을 통한 변수받기**
+
+form을 통한 변수를 받기 위해서는 변수를 보내는 url과 받는 url이 urls.py내에 기록되어야 한다.
+
+```python
+# drink/urls.py
+
+urlpatterns = [
+    path('past/', views.past),
+    path('past-r/', views.past_r),
+]
+```
+
+변수를 보내는 쪽의 html에서 form을 정의하고 form 태그 안에서 action 값을 변수를 받는 url을 입력하고
+
+input 태그안에 name 속성을 통해 변수이름을 설정해서 보낸다.
+
+```html
+# drink/templates/drink/past.html
+
+<form action='{% url drink:past-r %}'>
+    <label for='naming'>이름을 입력하세요.</label>
+    <input type='text' name='name' placeholder='이름을 입력하세요'>
+   	<button type='submit'>전생 확인하기</button>
+</form>
+```
+
+변수를 보내는 쪽의 함수정의는 할게 없다.
+
+```python
+# drink/views.py
+
+def past(request):
+    return render(request, 'drink/past.html')
+```
+
+변수를 받는쪽의 함수에서는 request.GET.get('name') 으로 변수를 받아들인다. name은 변수를 보내는쪽의 input 태그의 name 속성으로 정의했던 이름이다.
+
+```python
+# drunk/views.py
+
+def past_r(request):
+    name = request.GET.get('name')
+    context = {
+        'name' : name,
+    }
+    return render(request,'drink/past-r.html', context)
+```
+
+
+
+#### Django ModelForm
+
+- Model을 통해 Form Class를 만들 수 있는 helper class
+- ModelForm은 Form과 똑같은 방식으로 View 함수에서 사용
+
+
+
+#### ModelForm 선언
+
+- forms 라이브러리인 ModelForm 클래스를 상속받음
+
+- 정의한 ModelForm 클래스 안에 Meta 클래스를 선언
+
+- 어떤 모델을 기반으로 form을 작성할 것인지에 대한 정보를 Meta 클래스에 지정
+
+  ```python
+  # articles/forms.py
+  
+  from django import forms
+  from. models import Article
+  
+  class ArticleForm(forms.ModelForm):
+      
+      class Meta:
+          model = Article
+          fields = '__all__'
+  ```
+
+
+
+#### ModelForm에서의 Meta Class
+
+- ModelForm의 정보를 작성하는 곳
+
+- ModelForm을 사용할 경우 참조 할 모델이 있어야 하는데, Meta class의 model 속성이 이를 구성함
+
+  - 참조하는 모델에 정의된 field정보를 Form에 적용함
+
+  - fields 속성에 '__ all__' 를 사용하여 모델의 모든 필드를 포함할 수 있음
+
+  - 또는 exclude 속성을 사용하여 모델에서 포함하지 않을 필드를 지정할 수 있음
+
+    ```python
+    # articles/forms.py
+    
+    class ArticleForm(forms.ModelForm):
+        class Meta:
+            model = Article
+            fields = '__all__'
+            
+    # articles/forms.py
+    
+    class ArticleForm(forms.ModelForm):
+        class Meta:
+            model = Article
+            exclude = ('title',)
+    ```
+
+
+
+#### ModelForm 활용
+
+1. ModelForm 객체를 context로 전달
+
+   ```python
+   # articles/views.py
+   
+   from .forms import ArticleForm
+   
+   def new(request):
+       form = ArticleForm()
+       context = {
+           'from' : form,
+       }
+       return render(request, 'articles/new.html', context)
+   ```
+
+2. Input Field 활용
+
+   ```html
+   <!-- articles/new.html-->
+   
+   {% extends 'base.html' %}
+   
+   {% block content %}
+       <h1>
+           NEW
+       </h1>
+       <form action='{% url 'articles:create' %}' method="POST">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <input type='submit'>
+       </form>	
+       <hr>
+       <a href='{% url 'articles:index' %}'>[back]</a>
+   {% endblock %}
+   ```
+
+
+
+#### Form 렌더링 옵션
+
+- < label> & < input> 쌍에 대한 3가지 출력 옵션
+  - **as_p()**
+    - 각 필드가 단락(< p>태그)으로 감싸져서 렌더링
+  - as_ul()
+    - 각 필드가 목록 항목(< li>태그)으로 감싸져서 렌더링
+  - **as_table()**
+    - 각 필드가 테이블(< tr>태그) 행으로 감싸져서 렌더링
+
+
+
+#### CREATE
+
+- 유효성 검사를 통과하면 1. 데이터 저장 2. 상세 페이지로 리다이렉트
+
+- 통과하지 못하면 1. 작성 페이지로 리다이렉트
+
+  ```python
+  # articles/views.py
+  
+  def create(request):
+      form = ArticleForm(request.POST)
+      if form.is_valid():
+          article = form.save()
+          return redirect('articles:detail', article.pk)
+      return redirect('articles:new')
+  ```
+
+
+
+#### is_valid() method
+
+- 유효성 검사를 실행하고, 데이터가 유효한지 여부를 boolean으로 반환
+
+
+
+#### save() method
+
+- form 인스턴스에 바인딩된 데이터를 통해 데이터베이스 객체를 만들고 저장
+
+- ModelForm의 하위 클래스는 키워드 인자 instance 여부를 통해 새성할 지 수정할지를 결정함
+
+  - instance가 제공되지 않은 경우 save()는 지정된 모델의 새 인스턴스를 생성(CREATE)
+
+  - instance가 제공된 경우 save()는 해당 인스턴스를 수정(UPDATE)
+
+    ```python
+    # CREATE
+    form = ArticleForm(request.POST)
+    form.save()
+    
+    # UPDATE
+    form = ArticleForm(request.POST, instance=article)
+    form.save()
+    ```
+
+
+
+#### form 인스턴스의 errors 속성
+
+- is_valid() 의 반환 값이 False인 경우 form 인스턴스의 errors 속성에 값이 작성 되는데 유효성 검증을 실패한 원인이 딕셔너리 형태로 저장됨
+
+  ```python
+  # articles/views.py
+  
+  def create(request):
+      form = ArticleForm(request.POST)
+      if form.is_valid():
+          article = form.save()
+          return redirect('articles:detail', article.pk)
+      print(f'에러: {form.errors}')
+      return redirect('articles:new')
+  ```
+
+- title에 공백을 넣고 제출했을때 아래와 같은 required 에러가 뜬다.
+
+![image-20221016152032756](Django개발환경_설정가이드.assets/image-20221016152032756.png)
+
+- 이 같은 특징을 통해 다음과 같은 구조로 코드를 작성하면 유효성 검증을 실패 했을 때 사용자에게 실패 결과 메세지를 출력해줄 수 있다
+
+  ```python
+  # articles/urls.py
+  
+  from . import views
+  
+  app_name = 'articles'
+  
+  urlpatterns = [
+      ...,
+      path('create/', views.create, name='create'),
+  ]
+  ```
+  
+  ```python
+  # articles/views.py
+  
+  def create(request):
+      if request.method == 'POST'
+      	form = ArticleForm(request.POST)
+          if form.is_valid():
+              article = form.save()
+          	return redirect('articles:detail', article.pk)
+      else:
+          form = ArticleForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'articles/create.html', context)
+  ```
+  
+  
+
+#### READ
+
+- 정의했던 Model로 부터 불러와서 context로 넣어준다
+
+  ```python
+  # articles/urls.py
+  
+  from . import views
+  
+  app_name ='articles'
+  
+  urlpatterns = [
+      ...,
+      path('', views.index, name='index'),
+  ]
+  
+  
+  # articles/views.py
+  
+  from .models import review
+  
+  def index(request):
+      review = Review.objects.order_by('-pk')
+      context = {
+          'reviews' : reviews,
+      }
+      return render(request, 'articles/index.html', context)
+  ```
+
+- 템플릿에서 정의된 context로 부터 값을 출력시킨다.
+
+  ```html
+  {% for review in reviews %}
+  	<tr onclick='location.href="{{ r.pk }}"' style='cursor: pointer;'>
+          <td>{{ r.pk }}</td>
+          <td>{{ r.movie_name }}</td>
+          <td>{{ r.title }}</td>
+          <td>{{ r.grade }}</td>
+          <td>{{ r.updated_at }}</td>
+      </tr>
+  {% endfor %}
+  ```
+
+
+
+#### UPDATE
+
+- ModelForm의 인자 instance는 수정 대상이 되는 객체(기존 객체)를 지정한다.
+
+- request.POST
+
+  - 사용자가 form 을 통해 전송한 데이터 (새로운 데이터)
+
+- Instance 
+
+  - 수정이 되는 대상
+
+  ```python
+  # articles/urls.py
+  from . import views
+  
+  app_name = 'articles'
+  
+  urlpatterns = [
+      path('<int:pk>/update/', views.update, name='update')
+  ]
+  
+  # articles/views.py
+  
+  def update(request, pk):
+      article = Article.objects.get(pk=pk)
+      if request.method == 'POST':
+          form = ArticleForm(request.POST, instance=article)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:detail', article.pk)
+      else:
+      	form = ArticleForm(instance=article)        
+      context = {
+          'form' : form,
+          'article' : article,
+      }
+      return render(request, 'articles/edit.html', context)
+  ```
+
+
+
+#### DELETE
+
+```python
+# accounts/urls.py
+
+from . import views
+
+app_name = 'articles'
+
+urlpatterns = [
+    ...,
+    path('<int:pk>/delete',views.delete, name='delete'),
+]
+
+# accounts/views.py
+
+from .models import Article
+
+def delete(request, pk):
+	article = Article.objects.get(pk=pk)
+    article.delete()
+    return redirect('article:index')
+```
+
+
+
+#### DETAIL
+
+```python
+# accounts/urls.py
+
+from . import views
+
+app_name = 'articles'
+
+urlpatterns = [
+    ...,
+    path('<int:pk>',views.detail,name='detail'),
+]
+
+# accounts/views.py
+
+from .models import Article
+
+def detail(request, pk):
+    articles = Article.objects.get(pk=pk)
+    context = {
+        'articles' : articles,
+    }
+    return render(request, 'articles/detail.html', context)
+```
+
+
+
+#### 회원가입 페이지 생성
+
+#### 사전 설정
 
 - accounts app 생성 및 등록
 
@@ -154,25 +667,27 @@ urlpatterns = [
 ]
 ```
 
-### User model 활용
 
-- Django는 기본적인 인증 시스템과 여러가지 필드가 포함된 User Model을 제공, 
 
-  대부분의 개발 환경에서 기본 User Model을 Custom User Model로 대체함
+#### User model 활용
 
-- Custom User Model은 기본 User Model과 동일하게 작동하면서도 필요한 경우 나중에
+- Django는 기본적인 인증 시스템과 여러가지 필드가 포함된 User Model을 제공,  대부분의 개발 환경에서 
 
-  맞춤 설정할 수 있기 때문
+  기본 User Model을 Custom User Model로 대체함
+
+- Custom User Model은 기본 User Model과 동일하게 작동하면서도 필요한 경우 나중에 맞춤 설정할 수 있기 때문
 
   - 단! User Model 대체 작업은 프로젝트의 모든 migrations 혹은 첫 migrate를 실행하기 전에 이 작업을 마쳐야 함
 
 - Custom User Model 로 대체하기
 
-  - Django는 현재 프로젝트에서 사용할 User Model을 결정하는
+  - Django는 현재 프로젝트에서 사용할 User Model을 결정하는 **AUTO_USER_MODEL** 설정 값으로 
 
-    AUTO_USER_MODEL 설정 값으로 Default User Model을 재정의 할 수 있도록 함
+    Default User Model을 재정의 할 수 있도록 함
 
-### AUTH_USER_MODEL
+
+
+#### AUTH_USER_MODEL
 
 - 프로젝트에서 User를 나타낼 때 사용하는 모델
 - 프로젝트가 진행되는 동안 (모델을 만들고 마이그레이션 한 후) 변경할 수 없음
@@ -187,10 +702,12 @@ urlpatterns = [
 ```python
 # settings.py
 
-AUTO_USER_MODEL = 'auth.User'
+AUTO_USER_MODEL = 'auth.User' 
 ```
 
-### 대체하기
+
+
+#### 대체하기
 
 - AbstractUser를 상속받는 커스텀 User 클래스 작성
 
@@ -201,7 +718,7 @@ AUTO_USER_MODEL = 'auth.User'
   
   from django.contrib.auth.models import AbstractUser
   
-  class User(AbstracUser):
+  class User(AbstractUser):
       pass
   ```
 
@@ -225,7 +742,9 @@ AUTO_USER_MODEL = 'auth.User'
   admin.site.register(User, UserAdmin)
   ```
 
-### 데이터베이스 초기화(실습용)
+
+
+#### 데이터베이스 초기화(실습용)
 
 - 수업 진행을 위한 데이터베이스 초기화 후 마이그레이션 (프로젝트 중간일 경우)
 - migrations 파일 삭제
@@ -237,9 +756,9 @@ AUTO_USER_MODEL = 'auth.User'
   - migrate
 - 이제부터는 auth_user 테이블이 아니라 accounts_user 테이블을 사용하게 되었다.
 
-# 회원 가입
 
-### UserCreationForm
+
+#### 회원가입(Signup) / UserCreationForm  _  ModelForm
 
 - 주어진 username과 password로 권한이 없는 새 user를 생성하는 ModelForm
 
@@ -251,20 +770,24 @@ AUTO_USER_MODEL = 'auth.User'
   urlpatterns = [
       path('signup/', views.signup, name='signup'),
   ]
+  --------------------------------------------------------------------
   
   # accounts/views.py
   
-  from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+  from django.contrib.auth.forms import UserCreationForm
   
   def signup(request):
       if request.method == 'POST':
-          pass
+          form = UserCreationForm(request.POST)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:index')
       else:
           form = UserCreationForm()
       context = {
-          'form' : form,
+              'form' : form,
       }
-      return render(request, 'accounts/signup.html', context)
+      return render(request, 'accounts/signup.html', context)	
   ```
 
   ```django
@@ -296,26 +819,9 @@ AUTO_USER_MODEL = 'auth.User'
   </div>
   ```
 
-- 회원가입 로직 작성
 
-  ```python
-  # accounts/views.py
-  
-  def signup(request):
-      if request.method == 'POST':
-          form = UserCreationForm(request.POST)
-          if form.is_valid():
-              form.save()
-              return redirect('articles:index')
-      else:
-          form = UserCreationForm()
-      context = {
-              'form' : form,
-      }
-      return render(request, 'accounts/signup.html', context)	
-  ```
 
-### 회원가입 진행 후 에러 페이지 확인
+#### 회원가입 진행 후 에러 페이지 확인
 
 - 회원가입에 사용하는 UserCreationForm이 우리가 대체한 커스텀 유저 모델이 아닌 기존 유저 모델로 인해 작성된 클래스 이기 때문
 
@@ -328,7 +834,9 @@ AUTO_USER_MODEL = 'auth.User'
               'username' : UsernameField,
           }
 
-### UserCreationForm( ) 커스텀하기
+
+
+#### UserCreationForm( ) 커스텀하기
 
 - 기존 UserCreationForm을 상속받아 User 모델 재정의
 
@@ -344,7 +852,7 @@ AUTO_USER_MODEL = 'auth.User'
           model = get_user_model()
           
   # get_user_model()
-  	# 현재 프로젝트엣 활성화된 모델(active user model)을 반환
+  	# 현재 프로젝트에서 활성화된 모델(active user model)을 반환
       # Django에서는 User 클래스는 커스텀을 통해 변경 가능, 
       # User를 직접 참조하는 대신 get_user_model()을 사용할 것을 권장
   ```
@@ -354,8 +862,8 @@ AUTO_USER_MODEL = 'auth.User'
   ```python
   # accounts/views.py
   
-  from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-  from .forms import CustomUserCreationForm, CustomUserChangeForm
+  from django.contrib.auth.forms import UserCreationForm
+  from .forms import CustomUserCreationForm
   
   def signup(request):
       if request.method == 'POST'
@@ -382,24 +890,26 @@ AUTO_USER_MODEL = 'auth.User'
       return user # 핵심은 UserCreationForm의 save 메서드는 저장한 user를 반환
   ```
 
-# 로그인 Login
 
-### 어떻게 로그인 상태를 유지할까?
+
+#### 로그인(Login) / AuthenticationForm  _  Form 
+
+#### 어떻게 로그인 상태를 유지할까?
 
 - 서버와 클라이언트 간 지속적인 상태 유지를 위해 쿠키와 세션이 존재
 
-### Session in Django
+#### Session in Django
 
 - Django는 database-backed sessions 저장 방식을 기본 값으로 사용
   - session 정보는 Django DB의 django_session 테이블에 저장
   - 설정을 통해 다른 저장방식으로 변경 가능
 - Django는 특정 session id 를 포함하는 쿠키를 사용해서 각각의 브라우저와 사이트가 연결된 session을 확인함
 
-### AuthenticationForm
+#### AuthenticationForm
 
 - 로그인을 위한 built in form
 
-  - 로그인 하고자 하는 사용자 정보를 입려 받음(username, password)
+  - 로그인 하고자 하는 사용자 정보를 입력 받음(username, password)
   - ModelForm이 아닌 일반 Form을 상속 받고 있으며, request를 첫번째 인자로 취함
 
   ```python
@@ -445,7 +955,7 @@ AUTO_USER_MODEL = 'auth.User'
   {% endblock %}
   ```
 
-### login()
+#### login()
 
 - login(request, user, backend=None)
 - 인증된 사용자를 로그인
@@ -456,19 +966,22 @@ AUTO_USER_MODEL = 'auth.User'
     - authenticate() 함수를 활용한 인증
     - AuthenticationForm 을 활용한 is_valid
 
-### 로그인 로직 작성
+
+
+#### 로그인 로직 작성
 
 - 일반적인 ModelForm 기반의 Create 로직과 동일하지만 ModelForm이 아닌 Form으로써 필수 인자 구성이 다름
 
 - DB에 저장하는 것 대신 세션에 유저를 기록하는 함수를 호출함
 
   - View 함수와 이름이 동일하여 변경하여 호출
-  - 로그인 URL이 'accounts/login/' 에서 변경되는 경우 settings.py LOGIN_URL을 변경 해야함
+  - 로그인 URL의 기본값은 'accounts/login/' 이지만 변경이 필요한 경우 settings.py LOGIN_URL을 변경 해야함
 
   ```python
   # accounts/views.py
   
   from django.contrib.auth import login as auth_login
+  from django.contrib.auth.forms import AuthenticationForm
   
   def login(request):
       if request.method == 'POST':
@@ -484,12 +997,14 @@ AUTO_USER_MODEL = 'auth.User'
       return render(request, 'accounts/login.html', context)
   ```
 
-### get_user()
+get_user()
 
 - AuthenticationForm의 인스턴스 메서드
 - 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
 
-### base.html 에 로그인 링크 추가
+
+
+#### base.html 에 로그인 링크 추가
 
 ```django
 <!-- base.html -->
@@ -503,7 +1018,9 @@ AUTO_USER_MODEL = 'auth.User'
 </body>
 ```
 
-### base.html에 현재 로그인 되어있는 유저 정보 출력하기
+
+
+#### base.html에 현재 로그인 되어있는 유저 정보 출력하기
 
 ```django
 <!-- base.html -->
@@ -525,9 +1042,9 @@ AUTO_USER_MODEL = 'auth.User'
     - 클라이언트에서 로그인한 경우 User 클래스의 인스턴스
     - 클라이언트가 로그인 하지 않은 경우 AnonymousUser 클래스의 인스턴스
 
-# Logout
 
-### logout()
+
+#### Logout / logout()
 
 - logout(request)
 - 요청 유저에 대한 세션 정보를 삭제함 
@@ -546,7 +1063,7 @@ AUTO_USER_MODEL = 'auth.User'
   
   urlpatterns = [
       path('login/', views.login, name='login'),
-      path('login/', views.logout, name='logout'),
+      path('logout/', views.logout, name='logout'),
   ]
   
   # accounts/views.py
@@ -577,14 +1094,18 @@ AUTO_USER_MODEL = 'auth.User'
   </body>
   ```
 
-# Limiting access to logged-in users
+
+
+####  로그인 사용자에 대한 접근 제한 Limiting access to logged-in users
 
 - 로그인 사용자에 대한 접근 제한하기
 - 접근을 제한하는 2가지 방법
   - is_authenticated attribute를 활용한 조건문
   - login_required decorators를 활용한 view 제한
 
-### is_authenticated
+
+
+#### 1.  is_authenticated
 
 - User model의 속성중 하나
 
@@ -662,8 +1183,20 @@ AUTO_USER_MODEL = 'auth.User'
   {% endblock %}
   ```
 
+  ```python
+  # articles/views.py
+  
+  def create(request):
+      if request.user.is_authenticated:
+          pass
+      else:
+          return redirect('accounts:login')
+  ```
+  
+  
+  
   **is_authenticated 인증된 사용자라면 로그인 로직을 수행할 수 없도록 처리**
-
+  
   ```python
   # accounts/views.py
   
@@ -672,7 +1205,9 @@ AUTO_USER_MODEL = 'auth.User'
           return redirect('articles:index')
   ```
 
-### login_required
+
+
+#### 2.  login_required
 
 - login_required decorators
 
@@ -698,14 +1233,18 @@ AUTO_USER_MODEL = 'auth.User'
   	pass
   ```
 
-### login_required 적용확인하기
+
+
+#### login_required 적용확인하기
 
 - /articles/create/ 로 브라우저에 직접 요청
 - 로그인 페이지로 리다이렉트 및 URL 확인
-  - 인증 성공 시 사용자가 redirect되어야 하는 경로는 'next' 라는 쿼리 문자열 ㅐㅁ개 변수에 저장됨
+  - 인증 성공 시 사용자가 redirect되어야 하는 경로는 'next' 라는 쿼리 문자열 매개 변수에 저장됨
   - 예시) /accounts/login/?next=/articles/create/
 
-### 'next' query string parameter 대응
+
+
+#### 'next' query string parameter 대응
 
 ```python
 # accounts/views.py
@@ -719,25 +1258,329 @@ def login(request):
         if form.is_valid():
     		auth_login(request, form.get_user())
             return redirect(request.GET.get('next') or 'articles:index' )
+    else:
+    	form = AuthenticationForm()
+    context = {
+        'form' : form,
+    }
+    return render(request, 'accounts/login.html', context)
 ```
 
 
 
+#### 'next' query string parameter 주의사항
+
+- 만약 login 템플릿에서 form action이 작성되어 있다면 동작하지 않음
+- 해당 action 주소 next 파라미터의 url이 아닌 login 템플릿의 form action인 /accounts/login/으로 요청을 보내기 때문이다.
+
+```html
+<!-- accounts/login.html -->
+
+{% block content %}
+<h1>
+    로그인
+</h1>
+<form action='비워둬야함' 만약 {% url 'accpunts:login' %}이렇게 주소가 작성되어 있으면 next파라 미터가 작성되어있는 url이 날아가지않고 위의 url로 날아가게됨 method='POST'>
+    {% csrf_token %}
+    {{ for.as_p }}
+    <input type='submit'>
+</form>
+{% endblock %}
+```
+
+
+
+#### 회원정보수정(update) / UserChangeForm  _  ModelForm
+
+- 사용자의 정보 및 권한을 변경하기 위해 admin 인터페이스에서 사용되는 ModelForm
+- UserChangeForm 또한 ModelForm이기 때문에 instance 인자로 기존 user 데이터 정보를 받는 구조 또한 동일함
+
+- 이전에 CustomUserChangeForm으로 확장했기 때문에 CustomUserChangeForm을 사용하기
+
+- UserChangeForm 역시 ModelForm으로 구성되어 있어 User 모델 정보를 변경하여 활용
+
+  ```python
+  # accounts/forms.py
+  
+  from django.contrib.auth import get_user_model
+  from django.contrib.auth.forms import UserChangeForm
+  
+  class CustomUserChangeForm(UserChangeForm):
+      
+      class Meta(UserChangeForm.Meta):
+          model = get_user_model()
+          
+  # accounts/ursl.py
+  
+  app_name = 'accounts'
+  urlpatterns = [
+      ...,
+      path('update/', views.update, name='update'),
+  ]
+  
+  # accounts/views.py
+  
+  def update(request):
+      if request.method == 'POST'
+          pass
+      else:
+          form = CustomUserChangeForm(instance=request.user)
+      context = {
+          'form' : form
+      }
+      return render(request, 'accounts/update.html', context)
+  ```
+
+  ```html
+  <!-- accounts/update.html -->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      회원정보 수정
+  </h1>
+  <form action='{% url 'accounts:update' %}' method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit'>
+  </form>
+  
+  <!-- base.html -->
+  
+  <div class='container'>
+      <a href='{% url 'accounts:signup' %}'>Signup</a>
+      <a href='{% url 'accounts:update' %}'>회원정보 수정</a>
+      <hr>
+      {% block content %}
+      {% endblock %}
+  </div>
+  ```
+
+
+
+#### CustomUserChangeForm fields 재정의
+
+- UserChangeForm 은 실제 관리자 화면에서 활용 중인 form으로 세부 필드들이 모두 노출된다
+
+- 직접 fields를 정의하여 원하는 형식으로 활용 가능함
+
+  ```python
+  # accounts/forms.py
+  
+  class CustomUserChangeForm(UserChangeForm):
+      
+      class Meta(UserChangeForm.Meta):
+          model = get_user_model()
+          fields = ('email', 'first_name', 'last_name',)
+  ```
+
+
+
+#### 회원정보 수정 로직 작성
+
+- 작성 후 실제 회원정보가 수정되었는지 확인
+
+  ```python
+  # accounts/views.py
+  
+  def update(request):
+     if request.method == 'POST':
+     		form = CustomUserChangeForm(request.POST, instance=request.user)
+     		if form.is_valid():
+     			form.save()
+     			return redirect('articles:index')
+     else:
+     		form = CustomUserChangeForm(instance=request.user)
+     context = {
+     		'form' : form
+     }
+     return render(request, 'accounts/update.html', context)
+  ```
+
+
+
+#### User model 상속구조
+
+**AbstractUser** => **User** => **UserChangeForm** 으로 상속되고있다.
+
+
+
+#### 비밀번호변경(change_password) / PasswordChangeForm _ Form
+
+- 사용자가 비밀번호를 변경할 수 있도록 하는 Form
+
+- 이전 비밀번호를 입력하여 비밀번호를 변경할 수 있도록 함
+
+- 이전 비밀번호를 입력하지 않고 비밀번호를 설정할 수 있는 SetPasswordForm을 상속받는 서브 클래스
+
+  ```python
+  # accounts/urls.py
+  
+  app_name = 'accounts'
+  
+  urlpatterns = [
+      ...,
+      path('password/', views.change_password, name='change_password'),
+  ]
+  
+  # accounts/views.py
+  
+  from django.contrib.auth.forms import PasswordChangeForm
+  
+  def change_password(request):
+      if request.method == 'POST'
+      	form = PasswordChangeForm(request.user, request.POST)
+          if form.is_valid():
+              form.save()
+              return redirect ('articles:index')
+      else:
+          form = PasswordChangeForm(request.user)
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/change_password.html', context)
+  ```
+  
+  ```html
+  <!-- accounts/change_password.html-->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      비밀번호 변경
+  </h1>
+  <form action='{% url 'accounts:change_password' %}' method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit'>
+  </form>
+  {% endblock %}
+  ```
+
+- 비밀번호 변경 후 로그인 상태가 지속되지 못하는 문제 발생
+
+- 이를 해결하기 위해 암호 변경 시 세션 무효화 방지하기
+
+  - 비밀번호가 변경되면 기존 세션과의 회원 인증 정보가 일치하지 않게 되서 로그인 상태가 유지되지 못함
+
+- **update_session_auth_hash(request, user)**
+
+  - 현재 요청(current request)과 새 session data가 업데이트 된 사용자 객체를 가져오고 session data를 적절하게 업데이트 해줌
+  - 암호가 변경되어도 로그아웃 되지 않도록 새로운 password의 session data로 session을 업데이트
+
+  ```python
+  # accounts/views.py
+  
+  from django.contrib.auth import update_session_auth_hash
+  
+  def change_password(request):
+      if request.method == 'POST'
+      	form = PasswordChangeForm(request.user, request.POST)
+          if form.is_valid():
+              form.save()
+              update_session_auth_hash(request, form.user) # 이부분을 통해 세션유지
+              return redirect('articles:index')
+      else:
+      	form = PasswordChangeForm(request.user)
+      context = {
+          'form' : form,
+      }
+      return render(request, 'accounts/change_password.html', context)
+  ```
+
+
+
+#### 탈퇴 delete
+
+- 탈퇴와 동시에 해당 유저의 세션 정보도 함께 지우고 싶을 경우
+
+- 탈퇴(1) 후 로그아웃(2) 의 순서를 반드시 지켜야됨
+
+- 먼저 로그아웃을 해버리면 해당 요청 객체의 정보가 없어지기 때문에 탈퇴에 필요한 정보 또한 없어지기 떄문
+
+  ```python
+  # accounts/views.py
+  
+  def delete(request):
+      request.user.delete() # 이 순서가 중요   1.삭제
+      auth_logout(request) # 2. 로그아웃
+  ```
+
+
+
+#### AbstractBaseUser의 모든 subclass와 호환되는 forms
+
+- **forms.ModelForm 상속**
+  - UserCreationForm
+  - UserChangeForm
+- **forms.Form 상속**
+  - AuthenticationForm
+  - SetPasswordForm
+  - PasswordChangeForm
+  - AdminPasswordChangeForm
+
+
+
+#### Admin site
+
+- Django의 가장 강력한 기능 중 하나인 automatic admin interface 알아보기
+- 관리자 페이지
+  - 사용자가 아닌 서버의 관리자가 활용하기 위한 페이지
+  - 모델 class를 admin.py에 등록하고 관리
+  - 레코드 생성 여부 확인에 매우 유용하며 직접 레코드를 삽입할 수도 있음
+
+
+
+#### Admin 계정 생성
+
+```bash
+$ python manage.py createsuperuser
+```
+
+- username과 password를 입력해 관리자 계정을 생성
+  - email은 선택사항이기 때문에 입력하지 않고 enter를 입력하는 것이 가능
+  - 비밀번호 생성 시 보안상 터미널에 입력되지 않으니 무시하고 입력을 이어가도록 함
+
+
+
+#### Admin site 로그인
+
+- http://127.0.0.1:8000/admin/ 로 접속후 로그인
+- 계정만 만든 경우 Django 관리자 화면에서 모델 클래스는 보이지 않음
+
+
+
+#### Admin에 모델 클래스등록
+
+- 모델의 record를 보기 위해서는 admin.py에 등록 필요
+
+  ```python
+  # articles/admin.py
+  
+  from django.contrib import admin
+  frrom .models import Article
+  
+  admin.site.register(Article)
+  ```
+
+​	**등록된 모델 확인**![image-20221016184022087](Django개발환경_설정가이드.assets/image-20221016184022087.png)
+
+​	**admin 페이지에서 데이터를 조작해보기**
+
+![image-20221016184125487](Django개발환경_설정가이드.assets/image-20221016184125487.png)
 
 
 
 
 
+#### 정적파일 사용하기 - 기본 경로
+
+![image-20221016184231590](Django개발환경_설정가이드.assets/image-20221016184231590.png)
 
 
 
+#### 정적파일 사용하기 - 추가 경로
 
+추가경로를 사용하기 위해서는 settings.py에 STATICFILES_DIRS = [BASE_DIR/ 'static'] 을 등록해야한다.
 
-
-
-
-
-
-
-
-
+![image-20221016184259384](Django개발환경_설정가이드.assets/image-20221016184259384.png)
