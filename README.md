@@ -200,3 +200,6 @@
 
 ## [Django_11](Django/Django_11.md)
 
+## 💕10.17
+
+## [Django_12/ 이미지 업로드](Django/Django_12.md)
