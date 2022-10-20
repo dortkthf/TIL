@@ -29,7 +29,7 @@
     
     class Mymodel(models.Model):
         # MEDIA_ROOT/uploads/ 경로로 파일 업로드
-        upload = models.FileDield(upload_to='uploads/')
+        upload = models.FileField(upload_to='uploads/')
         # or
         # MEDAI_ROOT/uploads/2021/01/01/ 경로로 파일 업로드
         upload = models.FileField(upload_to='uploads/%Y/%m/%d/')
@@ -50,7 +50,7 @@
 
 **URL 설정**
 
-- settings.py 에 MEDIA_ROOT. MEDIA_URL 설정
+- settings.py 에 MEDIA_ROOT,  MEDIA_URL 설정
 
 - upload_to 속성을 정의하여 업로드 된 파일에 사용 할 MEDIA_ROOT의 하위 경로를 지정
 
@@ -161,8 +161,6 @@
   (단 , ImageField를 사용하기 위해서는 Pillow 라이브러리 설치 필요)
 
   ```bash
-  $ python manage.py makemigrations
-  
   $ pip install Pillow
   
   $ python manage.py makemigrations
@@ -292,7 +290,7 @@
 def update(request, pk):
     article = get_object_or_404(Article, pk=pk)
     if request.method == 'POST':
-        form = ArticleFprm(request.POST, request.FILES, instance=article)
+        form = ArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
             form.save()
             return redirect('artciels:index', article.pk)
@@ -340,7 +338,7 @@ def update(request, pk):
   ```python
   # models.py
   
-  from imagekit.models import ProcessdImageField
+  from imagekit.models import ProcessedImageField
   from imagekit.processors import Thumbnail
   
   class Article(models.Model):
@@ -351,7 +349,7 @@ def update(request, pk):
       	blank = True,
           processors=[Thumbnail(200,300)],
           format='JPEG',
-          options={'quiality' : 90},
+          options={'quality' : 90},
       )
       created_at = models.DateTimeField(auto_now_add=True)
       updated_at = models.DateTimeField(auto_now=True)
@@ -368,4 +366,31 @@ def update(request, pk):
   ```
 
   ProcessedImageField()의 parameter로 작성된 값들은 변경이 되더라도 다시 makemigrations를 해줄 필요없이 즉시 반영 됨
+
+### 관계 모델 참조
+
+**Related manager**
+
+- Related manager는 1:N 혹은 M:N 관계에서 사용 가능한 문맥(context)
+- Django는 모델 간 1:N 혹은 M:N 관계가 설정되면 역참조할 때에 사용할 수 있는 manager를 생성
+  - 이전에 모델 생성 시 objects라는 매니저를 통해 queryset api를 사용했던 것처럼 related manager를 통해 queryset api를 사용할 수 있게 됨
+- 지금은 1:N 관계에서의 related manager 만을 학습할 것
+
+**역참조**
+
+- 나를 참조하는 테이블(나를 외래 키로 지정한)을 참조하는 것
+- 즉, 본인을 외래 키로 참조 중인 다른 테이블에 접근하는 것
+- 1:N 관계에서는 1이 N을 참조하는 상황
+  - 외래 키를 가지지 않은 1이 외래 키를 가진 N을 참조
+
+```bash
+article.comment_set.method()
+```
+
+- Article 모델이 Comment 모델을 참조(역참조)할 때 사용하는 매니저
+- article.comment 형식으로는 댓글 객체를 참조 할 수 없음
+  - 실제로 Article 클래스에는 Comment와의 어떠한 관계도 작성되어 있지 않음
+- 대신 Django가 역참조 할 수 있는 comment_set manager를 자동으로 생성해 article.comment_set 형태로 댓글 객체를 참조할 수 있음
+  * 1:N 관계에서 생성되는 Related manager의 이름은 참조하는 '모델명_set' 이름 규칙으로 만들어짐
+- 반면 참조상황(Comment->Article)에서는 실제 ForeignKey 클래스로 작성한 인스턴스가 Comment 클래스의 클래스 변수이기 때문에 comment.article 형태로 작성 가능
 

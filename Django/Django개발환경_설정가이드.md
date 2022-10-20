@@ -777,6 +777,23 @@ AUTH_USER_MODEL = 'auth.User'
 - 주어진 username과 password로 권한이 없는 새 user를 생성하는 ModelForm
 
   ```python
+  # accounts/forms.py
+  
+  from django.contrib.auth import get_user_model # 현재 사용하는 user를 불러옴
+  from django.contrib.auth.forms import UserCreationForm
+  
+  class CustomUserCreationForm(UserCreationForm):
+      
+      class Meta(UserCreationForm.Meta): # 뒤에 .Meta 반드시 들어가야함
+          model = get_user_model()
+          
+  # get_user_model()
+  	# 현재 프로젝트에서 활성화된 모델(active user model)을 반환
+      # Django에서는 User 클래스는 커스텀을 통해 변경 가능, 
+      # User를 직접 참조하는 대신 get_user_model()을 사용할 것을 권장
+  
+  --------------------------------------------------------------------
+  
   # accounts/urls.py
   
   app_name = 'accounts'
@@ -788,20 +805,20 @@ AUTH_USER_MODEL = 'auth.User'
   
   # accounts/views.py
   
-  from django.contrib.auth.forms import UserCreationForm
+  from .forms import CustomUserCreationForm
   
   def signup(request):
-      if request.method == 'POST':
-          form = UserCreationForm(request.POST)
+      if request.method == 'POST'
+      	form = CustomUserCreationForm(request.POST)
           if form.is_valid():
               form.save()
               return redirect('articles:index')
       else:
-          form = UserCreationForm()
+          form = CustomUserCreationForm()
       context = {
-              'form' : form,
+          'form' : form,
       }
-      return render(request, 'accounts/signup.html', context)	
+      return render(request, 'accounts/signup.html', context)
   ```
 
   ```django
@@ -820,19 +837,6 @@ AUTH_USER_MODEL = 'auth.User'
   {% endblock %}
   ```
 
-- base.html에 회원가입 링크 작성
-
-  ```django
-  <!-- base.html -->
-  
-  <div class='container'>
-      <a href='{% url 'accounts:signup' %}'>Signup</a>
-      <hr>
-      {% block content %}
-      {% endblock %}
-  </div>
-  ```
-
 
 
 #### 회원가입 진행 후 에러 페이지 확인
@@ -847,51 +851,6 @@ AUTH_USER_MODEL = 'auth.User'
           field_classes = {
               'username' : UsernameField,
           }
-
-
-
-#### UserCreationForm( ) 커스텀하기
-
-- 기존 UserCreationForm을 상속받아 User 모델 재정의
-
-  ```python
-  # accounts/forms.py
-  
-  from django.contrib.auth import get_user_model # 현재 사용하는 user를 불러옴
-  from django.contrib.auth.forms import UserCreationForm
-  
-  class CustomUserCreationForm(UserCreationForm):
-      
-      class Meta(UserCreationForm.Meta): # 뒤에 .Meta 반드시 들어가야함
-          model = get_user_model()
-          
-  # get_user_model()
-  	# 현재 프로젝트에서 활성화된 모델(active user model)을 반환
-      # Django에서는 User 클래스는 커스텀을 통해 변경 가능, 
-      # User를 직접 참조하는 대신 get_user_model()을 사용할 것을 권장
-  ```
-
-- 기존 UserCreationForm을 CustomUserCreationForm() 으로 대체하기
-
-  ```python
-  # accounts/views.py
-  
-  from django.contrib.auth.forms import UserCreationForm
-  from .forms import CustomUserCreationForm
-  
-  def signup(request):
-      if request.method == 'POST'
-      	form = CustomUserCreationForm(request.POST)
-          if form.is_valid():
-              form.save()
-              return redirect('articles:index')
-      else:
-          form = CustomUserCreationForm()
-      context = {
-          'form' : form,
-      }
-      return render(request, 'accounts/signup.html', context)
-  ```
 
 - **[참고] UserCreationForm의 save 메서드**
 
@@ -995,22 +954,6 @@ AUTH_USER_MODEL = 'auth.User'
 
 - AuthenticationForm의 인스턴스 메서드
 - 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
-
-
-
-#### base.html 에 로그인 링크 추가
-
-```django
-<!-- base.html -->
-<body>
-    <div class='container'>
-        <a href='{% url 'accounts:login' %}'>Login</a>
-        <hr>
-        {% block content %}
-        {% endblock %}
-    </div>
-</body>
-```
 
 
 
@@ -1390,7 +1333,7 @@ def change_password(request):
 - 로그인 상태에서만 글을 작성/수정/삭제 할 수 있도록 변경
 
   ```python
-  from django.contrib.auth.decorator import login_required
+  from django.contrib.auth.decorators import login_required
   
   @login_required
   def create(request):
@@ -1538,3 +1481,302 @@ $ python manage.py createsuperuser
 추가경로를 사용하기 위해서는 settings.py에 STATICFILES_DIRS = [BASE_DIR/ 'static'] 을 등록해야한다.
 
 ![image-20221016184259384](Django개발환경_설정가이드.assets/image-20221016184259384.png)
+
+#### 이미지 업로드(기본 설정)
+
+**미디어 파일**
+
+- 사용자가 웹에서 업로드하는 정적 파일
+
+**Media 관련필드**
+
+- ImageField
+  - **[주의]**사용하려면 반드시 Pillow 라이브러리가 필요
+  - ImageField 인스턴스는 최대 길이가 100자인 문자열로 DB에 생성되며, max_length인자를 사용하여 최대 길이를 변경 할 수 있음
+  - FileField를 상속받는 서브 클래스이기 떄문에 FileField의 모든 속성 및 메서드를 사용가능
+- FileField
+  - 파일 업로드에 사용하는 모델 필드
+  - 2개의 선택 인자를 가지고 있음
+    - upload_to
+    - storate
+
+**메인 settings.py, 메인 url.py 설정**
+
+- settings.py에 MEDIA_ROOT, MEDIA_URL 설정
+
+- MEDIA_ROOT
+  - 사용자가 업로드 한 파일(미디어 파일)들을 보관할 디렉토리의 절대경로
+  - django는 성능을 위해 업로드 파일은 데이터베이스에 저장하지않고 파일의 경로만 저장
+
+- MEDIA_URL
+
+  - MEDIA_ROOT 에서 제공되는 미디어를 처리하는 URL
+  - 업로드 된 파일의 주소(URL)를 만들어 주는 역할
+  - 값을 입력하면 반드시 slash( / ) 로 끝나야 함
+
+  ```python
+  # settings.py
+  
+  MEDIA_ROOT = BASE_DIR / 'media'
+  MEDIA_URL = '/media/'
+  
+  # urls.py
+  
+  from django.conf import settings
+  from django.conf.urls.static import static
+  
+  urlpatterns =[
+      ...,
+      ...,
+  ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  
+  # 업로드 된 파일의 URL == settings.MEDIA_URL
+  # 위 URL을 통해 참조하는 파일의 실제 위치 == settings.MEDIA_ROOT
+
+**모델 설정**
+
+- upload_to
+
+  - 문자열 경로 지정 방식
+
+  ```python
+  # articles.models.py
+  
+  from django.db import models
+  
+  class Article(models.Model):
+      title = models.CharField(max_length=80)
+      content = models.TextField()
+      image = models.ImageField(upload_to='images/', blank=True,)
+      
+  ```
+
+**마이그레이션 실행**
+
+```bash
+# ImageField를 사용하기 위해서는 Pillow 라이브러리 설치 필요
+
+$ pip install Pillow
+
+$ python manage.py makemigrations
+$ python manage.py migrate
+```
+
+**articles/forms.py 필드에 image 추가**
+
+```python
+# articles/forms.py
+
+from .models import Article
+from django import forms
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['title', 'content', 'image']
+```
+
+**HTML 설정**
+
+```html
+<!--articles/create.html-->
+
+<form action='{% url 'articles:create' %}' method='POST' enctype='multipart/form-data'>
+    {% csrf_token %}
+    {{ bootstrap_form form }}
+    <input type='submit' value='글쓰기'>
+</form>
+```
+
+**View 설정**
+
+- 업로드한 파일은 request.FILES 객체로 전달됨
+
+  ```python
+  # articles/views.py
+  
+  def create(request):
+      if request.method=='POST':
+          form = ArticleForm(request.POST, request.FILES)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:index')
+      else:
+          form = ArticleForm()
+      context = {
+          'form' : form,
+      }
+      return render(request, 'articles/create.html', context)
+  ```
+
+
+
+#### 이미지 출력(READ)
+
+**img 태그 활용**
+
+- article.image.url == 업로드 파일의 경로
+
+- article.image == 업로드 파일의 파일 이름
+
+  ```html
+  <!--detail.html-->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+      <h2>
+          DETAIL
+      </h2>
+      <h3>
+          {{ article.pk }} 번 글
+      </h3>
+      <img src='{{ article.image.url }}' alt='{{ article.image }}'>
+      <hr>
+      ...
+  {% endblock %}
+  ```
+
+  
+
+#### 이미지 수정(UPDATE)
+
+- 이미지는 바이너리 데이터(하나의 덩어리)이기 때문에 텍스트처럼 일부만 수정 하는 것은 불가능하고, 새로운 사진으로 덮어 씌우는 방식을 사용
+
+  ```html
+  <!--articles/update.html-->
+  
+  {% extends 'base.html' %}
+  {% block content %}
+  <h1>
+      UPDATE
+  </h1>
+  <form action='{% url 'articles:update' article.pk %}' method='POST' enctype='multipart/form-data'>
+      {% csrf_token %}
+      {{ bootstrap_form form }}
+      <input type='submit' value='수정하기'>
+  </form>
+  {% endblock %}
+  ```
+
+  ```python
+  # articles/views.py
+  
+  @require_http_methods(['GET', 'POST'])
+  def update(request, pk):
+      article = get_object_or_404(Article, pk=pk)
+      if request.method == 'POST':
+          form = ArticleForm(request.POST, request.FILES, instance=article)
+          if form.is_valid():
+              form.save()
+              return redirect('articles:index', article.pk)
+      else:
+     		form = ArticleForm(intance=article)
+      context = {
+          'form' : form,
+       }
+      return render(request, 'articles/update.html', context)
+  ```
+
+
+#### **이미지 Resizing**
+
+**Django-imagekit**
+
+- 실제 원본 이미지를 서버에 그대로 업로드 하는 것은 서버의 부담이 크다
+
+- <img> 태그에서 직접 사이즈를 조정할 수도 있지만 (width 와 height), 업로드 될 때 이미지 자체를 resizing 하는 것을 사용해 볼 것
+
+- django-imagekit 라이브러리 활용
+
+  1. django-imagekit 설치
+  2. INSTALLED_APPS에 추가
+
+  ```bash
+  $ pip install django-imagekit
+  ```
+
+  ```python
+  # settings.py
+  
+  INSTALLED_APP = [
+      ...,
+      'imagekit',
+      ...
+  ]
+  ```
+
+  3. 이미지 크기 변경하기
+
+  ```python
+  # articles/models.py
+  
+  from imagekit.models import ProcessedImageField
+  from imagekit.processors import Thumbnail
+  
+  class Article(models.Model):
+      title = models.CharField(max_length=50)
+      content = models.TextField()
+      image = ProcessedImageField(
+      	upload_to='images/',
+      	blank = True,
+      	processors=[Thumbnail(400,500)],
+      # processors = [ResizeToFill(1200,960)] 이미지 사이즈를 1200x960으로 변환
+      	format="JPEG",
+      	options={'quality' : 90},
+      )
+  ```
+
+  4. 이후에 makemigtations -> migrate 실행
+
+  ```bash
+  $ python manage.py makemigrations
+  $ python manage.py migrate
+  ```
+
+  ProcessedImageField()의 parameter로 작성된 값들은 변경이 되더라도 다시 makemigrations를 해줄 필요없이 즉시 반영됨
+
+#### 관계 모델 참조
+
+**Related manager**
+
+- Related manager는 1:N 혹은 M:N 관계에서 사용 가능한 문맥(context)
+- Django는 모델 간 1:N 혹은 M:N 관계가 설정되면 역참조할 때에 사용할 수 있는 manager를 생성
+  - 이전에 모델 생성시 objects 라는 매니저를 통해 queryset api를 사용했던 것처럼 related manager를 통해 queryset api를 사용할 수 있게 됨
+- 지금은 1:N 관계에서의 related manager 만을 학습할 것
+
+**역참조**
+
+- 나를 참조하는 테이블(나를 외래 키로 지정한)을 참조하는 것
+
+- 즉, 본인을 외래 키로 참조 중인 다른 테이블에 접근하는 것
+
+- 1:N 관계에서는 1이 N을 참조하는 상황
+
+  - 즉, 외래 키를 가지지 않은 1이 외래 키를 가진 N을 참조
+
+  ```python
+  article.comment_set.method()
+  ```
+
+- Article 모델이 Comment 모델을 역참조 할 때 사용하는 매니저
+- article.comment 혁식으로는 댓글 객체를 참조 할 수 없음
+  - 실제로 Article 클래스에는 Comment와의 어떠한 관계도 작성되어 있지 않음
+
+- 대신 Django가 역참조 할 수 있는 comment_set manager를 자동으로 생성해 article.comment_set 형태로 댓글 객체를 참조할 수 있음
+  - 1:N 관계에서 생성되는 Related manafer의 이름은 참조하는 '모델명_set' 이름 규칙으로 만들어짐
+- 반면 참조상황(Comment -> Article)에서는 실제 ForeignKey 클래스로 작성한 인스턴스가 Comment 클래스의 클래스 변수이기 때문에 comment.article 형태로 작성 가능
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
