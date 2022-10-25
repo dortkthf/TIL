@@ -211,3 +211,7 @@
 ## 💕10.19
 
 ## [Django_14/  1:N 관계 를 통한 댓글 추가/삭제 ](Django/Django_14.md)
+
+## 💕10.24
+
+## [Django_15/ M:N relationship](Django/Django_15.md)

@@ -924,7 +924,7 @@ AUTH_USER_MODEL = 'auth.User'
   <h1>
       로그인
   </h1>
-  <form action = '{% url 'accounts:login' %}' method='POST'>
+  <form action = '' method='POST'>
       {% csrf_token %}
       {{ form.as_p }}
       <input type='submit'>
@@ -1765,6 +1765,228 @@ class ArticleForm(forms.ModelForm):
 - 대신 Django가 역참조 할 수 있는 comment_set manager를 자동으로 생성해 article.comment_set 형태로 댓글 객체를 참조할 수 있음
   - 1:N 관계에서 생성되는 Related manafer의 이름은 참조하는 '모델명_set' 이름 규칙으로 만들어짐
 - 반면 참조상황(Comment -> Article)에서는 실제 ForeignKey 클래스로 작성한 인스턴스가 Comment 클래스의 클래스 변수이기 때문에 comment.article 형태로 작성 가능
+
+#### [참고]
+
+- shell_plus 사용방법
+- django-extensions 를 pip를 통해 설치
+- 메인 seetings.py의 INSTALLED_APPS에 'django_extensions'를 추가
+- python manage.py shell_plus 를 통해 실행
+- shell 과 shell_plus의 차이점
+  - shell - 불러올 모델을 한개씩 작성해줘야함
+  - shell_plus - 모델을 별도로 작성하지 않아도 자동으로 모델을 불러옴
+
+#### Comment 모델 정의/ ForeignKey - related_name
+
+- ForeignKey 클래스의 선택 옵션
+
+- 역참조시 사용하는 매니저 이름(model_set manager)을 변경할 수 있음
+
+- 작성 후, migration 과정이 필요
+
+  ```python
+  # articles/models.py
+  
+  class Comment(models.Model):
+      article = models.ForeignKey(Article, on_delete=models.CASCADE, 
+                                 related_name='comments')
+  ```
+
+  위와 같이 **related_name = 'comments'**로 변경하게 되면 기존에 article에서 comment를 역참조할때에 사용했던 명령문인 **article.comment_set**은 더이상 사용할 수 없고 **article.comments**로 대체된다.
+
+**Migration 진행**
+
+- models.py 에서 모델에 대한 수정사항이 발생했기 때문에 migration 과정을 진행
+
+  ```bash
+  $ python manage.py makemigrations
+  $ python manage.py migrate
+  ```
+
+#### admin.site 등록
+
+- 새로 작성한 Comment모델을 admin.site에 등록하기
+
+  ```python
+  # articles/admin.py
+  
+  from .models import Article, Comment
+  
+  admin.site.register(Article)
+  admin.site.register(Comment)
+  ```
+
+#### Comment 구현
+
+- 사용자로부터 댓글 데이터를 입력 받기 위한 CommentForm 작성
+
+  ```python
+  # articles/forms.py
+  
+  from .models import Article, Comment
+  
+  class CommentForm(forms.ModelForm):
+      
+      class Meta:
+          model = Comment
+          fields = ['content']
+          
+  # articles/views.py
+  
+  from .forms import ArticleForm, CommentForm
+  
+  def detail(request, pk):
+      article = Article.objects.get(pk=pk)
+      if request.method == 'POST':
+          form = CommentForm(request.POST)
+          if form.is_valid():
+              forms = form.save(commit=False)
+              forms.user = request.user
+              forms.article = article
+              forms.save()
+              return redirect('articles:detail', pk)
+      else:
+          form = CommentForm()
+      comments = article.comments_set.order_by('-pk')
+      context = {
+          'article' : article,
+          'form' : form,
+          'comments' : comments,
+      }
+      return render(request, 'articles/detail.html', context)
+  ```
+
+  ```html
+  <!-- articles/detail.html-->
+  
+  {% extends 'base.html' %}
+  {% load 'django_bootstrap5' %}
+  {% block content %}
+  <h1>
+      articles detail 페이지 입니다.
+  </h1>
+  <div>
+      <h3>
+          {{ article.title }}
+      </h3>
+      <p>
+          {{ article.content }}
+      </p>
+      <img src='{{ article.image.url }}' alt='{{ article.image }}'>
+  </div>
+  <form action='{% url 'articles:detail' article.pk %}' method='POST'>
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type='submit' value='댓글작성'>
+  </form>
+  <h3>
+      댓글목록
+  </h3>
+  {% for comment in comments %}
+  <p>
+      {{ comment.content }}
+  </p>
+  <hr>
+  {% endfor %}
+  {% endblock %}
+  ```
+
+#### Comment Delete 구현
+
+```python
+# articles/urls.py
+
+urlpattrerns = [
+    ...,
+    path('<int:a_pk>/comments/<int:c_pk>', views.c_delete, name='c_delete')
+]
+
+# articles/views.py
+
+def c_delete(request, a_pk, c_pk):
+    comment = Comment.objects.get(pk=c_pk)
+    comment.delete()
+    return redirect('articles:detail', a_pk)
+```
+
+```html
+<!-- articles/detail.html -->
+<h3>
+    댓글목록
+</h3>
+{% for c in comments %}
+<p>
+    {{ c.content }} |
+    <a href='{% url 'articles:c_delete' article.pk c.pk %}'>댓글삭제</a>
+</p>
+{% endfor %}
+```
+
+#### Comment  추가사항
+
+- 댓글 개수 출력하기
+  - DTL filter -length 사용
+  - QuerysetAPI - count() 사용
+- 댓글이 없는 경우 대체 컨텐츠 출력
+
+**댓글 개수 출력하기**
+
+- DTL filter -length 사용
+
+  ```django
+  {{ comments|length }}
+  {{ article.comment_set.all|length }}
+  ```
+
+- QuerysetAPI - count() 사용
+
+  ```django
+  {{ comment.count }}
+  {{ article.comment_set.count }}
+  ```
+
+- detail 템플릿에 작성하기
+
+  ```django
+  <!--articles/detail.html-->
+  
+  <h4>
+      댓글목록
+  </h4>
+  {% if comments %}
+  <p>
+      <b>{{ comments|length }}개의 댓글이 있습니다.</b>
+  </p>
+  {% endif %}
+  ```
+
+**댓글이 없는 경우 대체 컨텐츠 출력하기**
+
+- DTL for empty 활용하기
+
+  ```html
+  <!--articles/detail.html-->
+  
+  {% for comment in comments %}
+  <p>
+      {{ comment.content }}
+  </p>
+  {% empty %}
+  <p>
+      댓글이 없습니다.
+  </p>
+  {% endfor %}
+  ```
+
+  
+
+
+
+
+
+
+
+
 
 
 
