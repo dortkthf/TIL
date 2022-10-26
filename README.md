@@ -214,4 +214,12 @@
 
 ## 💕10.24
 
-## [Django_15/ M:N relationship](Django/Django_15.md)
+## [Django_15/ M:N relationship, 좋아요, 팔로우](Django/Django_15.md)
+
+## 💕10.25
+
+## [Django_16 ---- 작성해야됨](Django/Django_16.md)
+
+## 💕10.26
+
+## [Django_17/ 좋아요, 팔로우 비동기처리](Django/Django_17.md)
