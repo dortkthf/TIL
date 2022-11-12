@@ -1978,7 +1978,10 @@ def c_delete(request, a_pk, c_pk):
   {% endfor %}
   ```
 
-  
+
+#### 비동기 구현
+
+**Axios**
 
 
 
