@@ -1997,11 +1997,3 @@ def c_delete(request, a_pk, c_pk):
 
 
 
-
-
-
-
-
-
-
-
