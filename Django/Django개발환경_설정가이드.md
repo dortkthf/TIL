@@ -1981,15 +1981,4 @@ def c_delete(request, a_pk, c_pk):
 
 #### 비동기 구현
 
-**Axios** 추후 추가예정
-
-
-
-
-
-
-
-
-
-
-
+**Axios** 추후 추가예정 -
