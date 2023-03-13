@@ -258,7 +258,7 @@ input 태그안에 name 속성을 통해 변수이름을 설정해서 보낸다.
 ```html
 # drink/templates/drink/past.html
 
-<form action='{% url drink:past-r %}'>
+<form action='{% url 'drink:past-r' %}'>
     <label for='naming'>이름을 입력하세요.</label>
     <input type='text' name='name' placeholder='이름을 입력하세요'>
    	<button type='submit'>전생 확인하기</button>
