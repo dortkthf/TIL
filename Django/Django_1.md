@@ -207,7 +207,7 @@
 
 ### MVC 소프트웨어 디자인 패턴
 
-- MVC는 Model-View-Controlle의 준말
+- MVC는 Model-View-Controller의 준말
 
   데이터 및 논리 제어를 구현하는데 널리 사용되는 소프트웨어 디자인 패턴
 

@@ -204,7 +204,7 @@ $ pip freeze > requirements.txt
 
 ### 코드 작성 순서
 
-- 앞으로 Django 에서으 ㅣ코드 작성은 URL -> View -> Template 순으로 작성
+- 앞으로 Django 에서의 코드 작성은 URL -> View -> Template 순으로 작성
 - '데이터의 흐름 순서'
 
 ## 추가 설정
